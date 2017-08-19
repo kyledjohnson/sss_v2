@@ -2,11 +2,11 @@
 #define _ZCNOTE_H_
 
 #include "uint256.h"
-#include "Zcash.h"
+#include "SeventeenSeventySix.h"
 #include "Address.hpp"
 #include "NoteEncryption.hpp"
 
-namespace libzcash {
+namespace libseventeenseventysix {
 
 class Note {
 public:

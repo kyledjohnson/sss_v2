@@ -16,7 +16,7 @@
 #include "script/sign.h"
 #include "timedata.h"
 #include "utilmoneystr.h"
-#include "zcash/Note.hpp"
+#include "seventeenseventysix/Note.hpp"
 #include "crypter.h"
 
 #include <assert.h>
@@ -26,7 +26,7 @@
 #include <boost/thread.hpp>
 
 using namespace std;
-using namespace libzcash;
+using namespace libseventeenseventysix;
 
 /**
  * Settings
@@ -99,7 +99,7 @@ CZCPaymentAddress CWallet::GenerateNewZKey()
 }
 
 // Add spending key to keystore and persist to disk
-bool CWallet::AddZKey(const libzcash::SpendingKey &key)
+bool CWallet::AddZKey(const libseventeenseventysix::SpendingKey &key)
 {
     AssertLockHeld(cs_wallet); // mapZKeyMetadata
     auto addr = key.address();
@@ -189,8 +189,8 @@ bool CWallet::AddCryptedKey(const CPubKey &vchPubKey,
 }
 
 
-bool CWallet::AddCryptedSpendingKey(const libzcash::PaymentAddress &address,
-                                    const libzcash::ViewingKey &vk,
+bool CWallet::AddCryptedSpendingKey(const libseventeenseventysix::PaymentAddress &address,
+                                    const libseventeenseventysix::ViewingKey &vk,
                                     const std::vector<unsigned char> &vchCryptedSecret)
 {
     if (!CCryptoKeyStore::AddCryptedSpendingKey(address, vk, vchCryptedSecret))
@@ -236,12 +236,12 @@ bool CWallet::LoadCryptedKey(const CPubKey &vchPubKey, const std::vector<unsigne
     return CCryptoKeyStore::AddCryptedKey(vchPubKey, vchCryptedSecret);
 }
 
-bool CWallet::LoadCryptedZKey(const libzcash::PaymentAddress &addr, const libzcash::ViewingKey &vk, const std::vector<unsigned char> &vchCryptedSecret)
+bool CWallet::LoadCryptedZKey(const libseventeenseventysix::PaymentAddress &addr, const libseventeenseventysix::ViewingKey &vk, const std::vector<unsigned char> &vchCryptedSecret)
 {
     return CCryptoKeyStore::AddCryptedSpendingKey(addr, vk, vchCryptedSecret);
 }
 
-bool CWallet::LoadZKey(const libzcash::SpendingKey &key)
+bool CWallet::LoadZKey(const libseventeenseventysix::SpendingKey &key)
 {
     return CCryptoKeyStore::AddSpendingKey(key);
 }
@@ -963,7 +963,7 @@ bool CWallet::UpdateNullifierNoteMap()
                     auto i = item.first.js;
                     GetNoteDecryptor(item.second.address, dec);
                     auto hSig = wtxItem.second.vjoinsplit[i].h_sig(
-                        *pzcashParams, wtxItem.second.joinSplitPubKey);
+                        *pseventeenseventysixParams, wtxItem.second.joinSplitPubKey);
                     item.second.nullifier = GetNoteNullifier(
                         wtxItem.second.vjoinsplit[i],
                         item.second.address,
@@ -1218,13 +1218,13 @@ void CWallet::EraseFromWallet(const uint256 &hash)
  * Throws std::runtime_error if the decryptor doesn't match this note
  */
 boost::optional<uint256> CWallet::GetNoteNullifier(const JSDescription& jsdesc,
-                                                   const libzcash::PaymentAddress& address,
+                                                   const libseventeenseventysix::PaymentAddress& address,
                                                    const ZCNoteDecryption& dec,
                                                    const uint256& hSig,
                                                    uint8_t n) const
 {
     boost::optional<uint256> ret;
-    auto note_pt = libzcash::NotePlaintext::decrypt(
+    auto note_pt = libseventeenseventysix::NotePlaintext::decrypt(
         dec,
         jsdesc.ciphertexts[n],
         jsdesc.ephemeralKey,
@@ -1232,7 +1232,7 @@ boost::optional<uint256> CWallet::GetNoteNullifier(const JSDescription& jsdesc,
         (unsigned char) n);
     auto note = note_pt.note(address);
     // SpendingKeys are only available if the wallet is unlocked
-    libzcash::SpendingKey key;
+    libseventeenseventysix::SpendingKey key;
     if (GetSpendingKey(address, key)) {
         ret = note.nullifier(key);
     }
@@ -1254,7 +1254,7 @@ mapNoteData_t CWallet::FindMyNotes(const CTransaction& tx) const
 
     mapNoteData_t noteData;
     for (size_t i = 0; i < tx.vjoinsplit.size(); i++) {
-        auto hSig = tx.vjoinsplit[i].h_sig(*pzcashParams, tx.joinSplitPubKey);
+        auto hSig = tx.vjoinsplit[i].h_sig(*pseventeenseventysixParams, tx.joinSplitPubKey);
         for (uint8_t j = 0; j < tx.vjoinsplit[i].ciphertexts.size(); j++) {
             for (const NoteDecryptorMap::value_type& item : mapNoteDecryptors) {
                 try {
@@ -3611,7 +3611,7 @@ bool CMerkleTx::AcceptToMemoryPool(bool fLimitFree, bool fRejectAbsurdFee)
 void CWallet::GetFilteredNotes(std::vector<CNotePlaintextEntry> & outEntries, std::string address, int minDepth, bool ignoreSpent)
 {
     bool fFilterAddress = false;
-    libzcash::PaymentAddress filterPaymentAddress;
+    libseventeenseventysix::PaymentAddress filterPaymentAddress;
     if (address.length() > 0) {
         filterPaymentAddress = CZCPaymentAddress(address).Get();
         fFilterAddress = true;
@@ -3657,7 +3657,7 @@ void CWallet::GetFilteredNotes(std::vector<CNotePlaintextEntry> & outEntries, st
             }
 
             // determine amount of funds in the note
-            auto hSig = wtx.vjoinsplit[i].h_sig(*pzcashParams, wtx.joinSplitPubKey);
+            auto hSig = wtx.vjoinsplit[i].h_sig(*pseventeenseventysixParams, wtx.joinSplitPubKey);
             try {
                 NotePlaintext plaintext = NotePlaintext::decrypt(
                         decryptor,

@@ -4,19 +4,19 @@
 
 #include <boost/foreach.hpp>
 
-#include "zcash/prf.h"
+#include "seventeenseventysix/prf.h"
 
-#include "zcash/JoinSplit.hpp"
-#include "zcash/Note.hpp"
-#include "zcash/NoteEncryption.hpp"
-#include "zcash/IncrementalMerkleTree.hpp"
+#include "seventeenseventysix/JoinSplit.hpp"
+#include "seventeenseventysix/Note.hpp"
+#include "seventeenseventysix/NoteEncryption.hpp"
+#include "seventeenseventysix/IncrementalMerkleTree.hpp"
 
-using namespace libzcash;
+using namespace libseventeenseventysix;
 
 void test_full_api(ZCJoinSplit* js)
 {
     // Create verification context.
-    auto verifier = libzcash::ProofVerifier::Strict();
+    auto verifier = libseventeenseventysix::ProofVerifier::Strict();
 
     // The recipient's information.
     SpendingKey recipient_key = SpendingKey::random();
@@ -231,7 +231,7 @@ def hSig(randomSeed, nf1, nf2, pubKeyHash):
     return pyblake2.blake2b(
         data=(randomSeed + nf1 + nf2 + pubKeyHash),
         digest_size=32,
-        person=b"ZcashComputehSig"
+        person=b"SeventeenSeventySixComputehSig"
     ).digest()
 
 INCREASING = "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F"
@@ -512,16 +512,16 @@ TEST(joinsplit, full_api_test)
 
     test_full_api(js);
 
-    js->saveProvingKey("./zcashTest.pk");
-    js->saveVerifyingKey("./zcashTest.vk");
+    js->saveProvingKey("./seventeenseventysixTest.pk");
+    js->saveVerifyingKey("./seventeenseventysixTest.vk");
 
     delete js;
 
     js = ZCJoinSplit::Unopened();
 
-    js->setProvingKeyPath("./zcashTest.pk");
+    js->setProvingKeyPath("./seventeenseventysixTest.pk");
     js->loadProvingKey();
-    js->loadVerifyingKey("./zcashTest.vk");
+    js->loadVerifyingKey("./seventeenseventysixTest.vk");
 
     test_full_api(js);
 

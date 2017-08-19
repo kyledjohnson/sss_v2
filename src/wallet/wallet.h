@@ -21,7 +21,7 @@
 #include "wallet/crypter.h"
 #include "wallet/wallet_ismine.h"
 #include "wallet/walletdb.h"
-#include "zcash/Address.hpp"
+#include "seventeenseventysix/Address.hpp"
 #include "base58.h"
 
 #include <algorithm>
@@ -199,7 +199,7 @@ public:
 class CNoteData
 {
 public:
-    libzcash::PaymentAddress address;
+    libseventeenseventysix::PaymentAddress address;
 
     /**
      * Cached note nullifier. May not be set if the wallet was not unlocked when
@@ -233,9 +233,9 @@ public:
     int witnessHeight;
 
     CNoteData() : address(), nullifier(), witnessHeight {-1} { }
-    CNoteData(libzcash::PaymentAddress a) :
+    CNoteData(libseventeenseventysix::PaymentAddress a) :
             address {a}, nullifier(), witnessHeight {-1} { }
-    CNoteData(libzcash::PaymentAddress a, uint256 n) :
+    CNoteData(libseventeenseventysix::PaymentAddress a, uint256 n) :
             address {a}, nullifier {n}, witnessHeight {-1} { }
 
     ADD_SERIALIZE_METHODS;
@@ -268,7 +268,7 @@ typedef std::map<JSOutPoint, CNoteData> mapNoteData_t;
 struct CNotePlaintextEntry
 {
     JSOutPoint jsop;
-    libzcash::NotePlaintext plaintext;
+    libseventeenseventysix::NotePlaintext plaintext;
 };
 
 
@@ -697,7 +697,7 @@ public:
 
     std::set<int64_t> setKeyPool;
     std::map<CKeyID, CKeyMetadata> mapKeyMetadata;
-    std::map<libzcash::PaymentAddress, CKeyMetadata> mapZKeyMetadata;
+    std::map<libseventeenseventysix::PaymentAddress, CKeyMetadata> mapZKeyMetadata;
 
     typedef std::map<unsigned int, CMasterKey> MasterKeyMap;
     MasterKeyMap mapMasterKeys;
@@ -865,15 +865,15 @@ public:
     //! Generates a new zaddr
     CZCPaymentAddress GenerateNewZKey();
     //! Adds spending key to the store, and saves it to disk
-    bool AddZKey(const libzcash::SpendingKey &key);
+    bool AddZKey(const libseventeenseventysix::SpendingKey &key);
     //! Adds spending key to the store, without saving it to disk (used by LoadWallet)
-    bool LoadZKey(const libzcash::SpendingKey &key);
+    bool LoadZKey(const libseventeenseventysix::SpendingKey &key);
     //! Load spending key metadata (used by LoadWallet)
-    bool LoadZKeyMetadata(const libzcash::PaymentAddress &addr, const CKeyMetadata &meta);
+    bool LoadZKeyMetadata(const libseventeenseventysix::PaymentAddress &addr, const CKeyMetadata &meta);
     //! Adds an encrypted spending key to the store, without saving it to disk (used by LoadWallet)
-    bool LoadCryptedZKey(const libzcash::PaymentAddress &addr, const libzcash::ViewingKey &vk, const std::vector<unsigned char> &vchCryptedSecret);
+    bool LoadCryptedZKey(const libseventeenseventysix::PaymentAddress &addr, const libseventeenseventysix::ViewingKey &vk, const std::vector<unsigned char> &vchCryptedSecret);
     //! Adds an encrypted spending key to the store, and saves it to disk (virtual method, declared in crypter.h)
-    bool AddCryptedSpendingKey(const libzcash::PaymentAddress &address, const libzcash::ViewingKey &vk, const std::vector<unsigned char> &vchCryptedSecret);
+    bool AddCryptedSpendingKey(const libseventeenseventysix::PaymentAddress &address, const libseventeenseventysix::ViewingKey &vk, const std::vector<unsigned char> &vchCryptedSecret);
 
     /** 
      * Increment the next transaction order id
@@ -936,7 +936,7 @@ public:
 
     boost::optional<uint256> GetNoteNullifier(
         const JSDescription& jsdesc,
-        const libzcash::PaymentAddress& address,
+        const libseventeenseventysix::PaymentAddress& address,
         const ZCNoteDecryption& dec,
         const uint256& hSig,
         uint8_t n) const;

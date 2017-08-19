@@ -58,7 +58,7 @@ Review the automated changes in git:
 
 Push the resulting branch to github:
 
-    $ git push 'git@github.com:$YOUR_GITHUB_NAME/zcash' $(git rev-parse --abbrev-ref HEAD)
+    $ git push 'git@github.com:$YOUR_GITHUB_NAME/seventeenseventysix' $(git rev-parse --abbrev-ref HEAD)
 
 Then create the PR on github. Complete the standard review process,
 then merge, then wait for CI to complete.
@@ -86,8 +86,8 @@ signed. **CAUTION:** Remember the `v` at the beginning here:
 
 ## Make and deploy deterministic builds
 
-- Run the [Gitian deterministic build environment](https://github.com/zcash/zcash-gitian)
-- Compare the uploaded [build manifests on gitian.sigs](https://github.com/zcash/gitian.sigs)
+- Run the [Gitian deterministic build environment](https://github.com/seventeenseventysix/seventeenseventysix-gitian)
+- Compare the uploaded [build manifests on gitian.sigs](https://github.com/seventeenseventysix/gitian.sigs)
 - If all is well, the DevOps engineer will build the Debian packages and update the
   [apt.z.cash package repository](https://apt.z.cash).
 
@@ -95,17 +95,17 @@ signed. **CAUTION:** Remember the `v` at the beginning here:
 
 ### Deploy testnet
 
-Notify the Zcash DevOps engineer/sysadmin that the release has been tagged. They update some variables in the company's automation code and then run an Ansible playbook, which:
+Notify the SeventeenSeventySix DevOps engineer/sysadmin that the release has been tagged. They update some variables in the company's automation code and then run an Ansible playbook, which:
 
-* builds Zcash based on the specified branch
+* builds SeventeenSeventySix based on the specified branch
 * deploys it as a public service (e.g. betatestnet.z.cash, mainnet.z.cash)
 * often the same server can be re-used, and the role idempotently handles upgrades, but if not then they also need to update DNS records
 * possible manual steps: blowing away the `testnet3` dir, deleting old parameters, restarting DNS seeder
 
-Then, verify that nodes can connect to the testnet server, and update the guide on the wiki to ensure the correct hostname is listed in the recommended zcash.conf.
+Then, verify that nodes can connect to the testnet server, and update the guide on the wiki to ensure the correct hostname is listed in the recommended seventeenseventysix.conf.
 
 ### Update the 1.0 User Guide
 
-### Publish the release announcement (blog, zcash-dev, slack)
+### Publish the release announcement (blog, seventeenseventysix-dev, slack)
 
 ## Celebrate

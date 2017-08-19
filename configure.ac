@@ -8,7 +8,7 @@ define(_ZC_BUILD_VAL, m4_if(m4_eval(_CLIENT_VERSION_BUILD < 25), 1, m4_incr(_CLI
 define(_CLIENT_VERSION_SUFFIX, m4_if(m4_eval(_CLIENT_VERSION_BUILD < 25), 1, _CLIENT_VERSION_REVISION-beta$1, m4_eval(_CLIENT_VERSION_BUILD < 50), 1, _CLIENT_VERSION_REVISION-rc$1, m4_eval(_CLIENT_VERSION_BUILD == 50), 1, _CLIENT_VERSION_REVISION, _CLIENT_VERSION_REVISION-$1)))
 define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2017)
-AC_INIT([Zcash],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_SUFFIX(_ZC_BUILD_VAL)],[https://github.com/zcash/zcash/issues],[zcash])
+AC_INIT([SeventeenSeventySix],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_SUFFIX(_ZC_BUILD_VAL)],[https://github.com/seventeenseventysix/seventeenseventysix/issues],[seventeenseventysix])
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -40,7 +40,7 @@ else
   CXXFLAGS_overridden=no
 fi
 
-# Zcash requries C++11 compatibility; set it early:
+# SeventeenSeventySix requries C++11 compatibility; set it early:
 CXXFLAGS="-std=c++11 $CXXFLAGS"
 
 AC_PROG_CXX
@@ -187,7 +187,7 @@ CPPFLAGS="$CPPFLAGS -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS"
 
 AC_ARG_WITH([utils],
   [AS_HELP_STRING([--with-utils],
-  [build zcash-cli zcash-tx (default=yes)])],
+  [build seventeenseventysix-cli seventeenseventysix-tx (default=yes)])],
   [build_bitcoin_utils=$withval],
   [build_bitcoin_utils=yes])
 
@@ -775,10 +775,10 @@ AC_CHECK_LIB([snark],[main],LIBSNARK_LIBS=-lsnark, [AC_MSG_ERROR(libsnark missin
 
 RUST_LIBS=""
 if test x$enable_rust != xno; then
-  RUST_LIBS="-lrustzcash"
+  RUST_LIBS="-lrustseventeenseventysix"
 fi
 
-LIBZCASH_LIBS="-lsnark -lgmp -lgmpxx -lboost_system-mt -lcrypto -lsodium -fopenmp $RUST_LIBS"
+LIBSEVENTEENSEVENTYSIX_LIBS="-lsnark -lgmp -lgmpxx -lboost_system-mt -lcrypto -lsodium -fopenmp $RUST_LIBS"
 
 CXXFLAGS_TEMP="$CXXFLAGS"
 LIBS_TEMP="$LIBS"
@@ -792,7 +792,7 @@ AC_MSG_CHECKING([whether to build bitcoind])
 AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_bitcoind = xyes])
 AC_MSG_RESULT($build_bitcoind)
 
-AC_MSG_CHECKING([whether to build utils (zcash-cli zcash-tx)])
+AC_MSG_CHECKING([whether to build utils (seventeenseventysix-cli seventeenseventysix-tx)])
 AM_CONDITIONAL([BUILD_BITCOIN_UTILS], [test x$build_bitcoin_utils = xyes])
 AC_MSG_RESULT($build_bitcoin_utils)
 
@@ -800,7 +800,7 @@ AC_MSG_CHECKING([whether to build libraries])
 AM_CONDITIONAL([BUILD_BITCOIN_LIBS], [test x$build_bitcoin_libs = xyes])
 if test x$build_bitcoin_libs = xyes; then
   AC_DEFINE(HAVE_CONSENSUS_LIB, 1, [Define this symbol if the consensus lib has been built])
-  AC_CONFIG_FILES([libzcashconsensus.pc:libzcashconsensus.pc.in])
+  AC_CONFIG_FILES([libseventeenseventysixconsensus.pc:libseventeenseventysixconsensus.pc.in])
 fi
 
 AC_MSG_RESULT($build_bitcoin_libs)
@@ -914,7 +914,7 @@ AC_SUBST(LEVELDB_TARGET_FLAGS)
 AC_SUBST(GMP_LIBS)
 AC_SUBST(GMPXX_LIBS)
 AC_SUBST(LIBSNARK_LIBS)
-AC_SUBST(LIBZCASH_LIBS)
+AC_SUBST(LIBSEVENTEENSEVENTYSIX_LIBS)
 AC_SUBST(PROTON_LIBS)
 AC_CONFIG_FILES([Makefile src/Makefile doc/man/Makefile share/setup.nsi src/test/buildenv.py])
 AC_CONFIG_FILES([qa/pull-tester/run-bitcoind-for-test.sh],[chmod +x qa/pull-tester/run-bitcoind-for-test.sh])

@@ -1,4 +1,4 @@
-Zcash Contributors
+SeventeenSeventySix Contributors
 ==================
 
 Jack Grigg (445)
@@ -91,4 +91,4 @@ Alex van der Peet (1)
 Alex (1)
 Adam Weiss (1)
 Adam Brown (1)
-4ZEC (1)
+4SSS (1)

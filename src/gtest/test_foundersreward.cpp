@@ -4,7 +4,7 @@
 #include "utilmoneystr.h"
 #include "chainparams.h"
 #include "utilstrencodings.h"
-#include "zcash/Address.hpp"
+#include "seventeenseventysix/Address.hpp"
 #include "wallet/wallet.h"
 #include "amount.h"
 #include <memory>
@@ -15,12 +15,12 @@
 #include "util.h"
 
 // To run tests:
-// ./zcash-gtest --gtest_filter="founders_reward_test.*"
+// ./seventeenseventysix-gtest --gtest_filter="founders_reward_test.*"
 
 //
 // Enable this test to generate and print 48 testnet 2-of-3 multisig addresses.
 // The output can be copied into chainparams.cpp.
-// The temporary wallet file can be renamed as wallet.dat and used for testing with zcashd.
+// The temporary wallet file can be renamed as wallet.dat and used for testing with seventeenseventysixd.
 //
 #if 0
 TEST(founders_reward_test, create_testnet_2of3multisig) {
@@ -147,7 +147,7 @@ TEST(founders_reward_test, regtest) {
 
 
 // Test that 10% founders reward is fully rewarded after the first halving and slow start shift.
-// On Mainnet, this would be 2,100,000 ZEC after 850,000 blocks (840,000 + 10,000).
+// On Mainnet, this would be 2,100,000 SSS after 850,000 blocks (840,000 + 10,000).
 TEST(founders_reward_test, slow_start_subsidy) {
     SelectParams(CBaseChainParams::MAIN);
     CChainParams params = Params();

@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
 #include "primitives/transaction.h"
-#include "zcash/Note.hpp"
-#include "zcash/Address.hpp"
+#include "seventeenseventysix/Note.hpp"
+#include "seventeenseventysix/Address.hpp"
 
 extern ZCJoinSplit* params;
 extern int GenZero(int n);
@@ -12,10 +12,10 @@ TEST(Transaction, JSDescriptionRandomized) {
     // construct a merkle tree
     ZCIncrementalMerkleTree merkleTree;
 
-    libzcash::SpendingKey k = libzcash::SpendingKey::random();
-    libzcash::PaymentAddress addr = k.address();
+    libseventeenseventysix::SpendingKey k = libseventeenseventysix::SpendingKey::random();
+    libseventeenseventysix::PaymentAddress addr = k.address();
 
-    libzcash::Note note(addr.a_pk, 100, uint256(), uint256());
+    libseventeenseventysix::Note note(addr.a_pk, 100, uint256(), uint256());
 
     // commitment from coin
     uint256 commitment = note.cm();
@@ -30,13 +30,13 @@ TEST(Transaction, JSDescriptionRandomized) {
 
     // create JSDescription
     uint256 pubKeyHash;
-    boost::array<libzcash::JSInput, ZC_NUM_JS_INPUTS> inputs = {
-        libzcash::JSInput(witness, note, k),
-        libzcash::JSInput() // dummy input of zero value
+    boost::array<libseventeenseventysix::JSInput, ZC_NUM_JS_INPUTS> inputs = {
+        libseventeenseventysix::JSInput(witness, note, k),
+        libseventeenseventysix::JSInput() // dummy input of zero value
     };
-    boost::array<libzcash::JSOutput, ZC_NUM_JS_OUTPUTS> outputs = {
-        libzcash::JSOutput(addr, 50),
-        libzcash::JSOutput(addr, 50)
+    boost::array<libseventeenseventysix::JSOutput, ZC_NUM_JS_OUTPUTS> outputs = {
+        libseventeenseventysix::JSOutput(addr, 50),
+        libseventeenseventysix::JSOutput(addr, 50)
     };
     boost::array<size_t, ZC_NUM_JS_INPUTS> inputMap;
     boost::array<size_t, ZC_NUM_JS_OUTPUTS> outputMap;

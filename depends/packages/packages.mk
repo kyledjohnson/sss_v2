@@ -1,7 +1,7 @@
-rust_packages := rust librustzcash
+rust_packages := rust librustseventeenseventysix
 proton_packages := proton
-zcash_packages := libsnark libgmp libsodium
-packages := boost openssl libevent zeromq $(zcash_packages) googletest googlemock
+seventeenseventysix_packages := libsnark libgmp libsodium
+packages := boost openssl libevent zeromq $(seventeenseventysix_packages) googletest googlemock
 native_packages := native_ccache
 
 wallet_packages=bdb

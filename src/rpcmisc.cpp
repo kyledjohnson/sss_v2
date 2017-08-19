@@ -23,7 +23,7 @@
 
 #include <univalue.h>
 
-#include "zcash/Address.hpp"
+#include "seventeenseventysix/Address.hpp"
 
 using namespace std;
 
@@ -241,7 +241,7 @@ UniValue z_validateaddress(const UniValue& params, bool fHelp)
     string strAddress = params[0].get_str();
     try {
         CZCPaymentAddress address(strAddress);
-        libzcash::PaymentAddress addr = address.Get();
+        libseventeenseventysix::PaymentAddress addr = address.Get();
 
 #ifdef ENABLE_WALLET
         isMine = pwalletMain->HaveSpendingKey(addr);

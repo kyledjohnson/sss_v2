@@ -31,7 +31,7 @@ LIBBITCOIN_UTIL=libbitcoin_util.a
 LIBBITCOIN_CRYPTO=crypto/libbitcoin_crypto.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 LIBUNIVALUE=univalue/libunivalue.la
-LIBZCASH=libzcash.a
+LIBSEVENTEENSEVENTYSIX=libseventeenseventysix.a
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
@@ -47,7 +47,7 @@ EXTRA_LIBRARIES = \
   libbitcoin_common.a \
   libbitcoin_server.a \
   libbitcoin_cli.a \
-  libzcash.a
+  libseventeenseventysix.a
 if ENABLE_WALLET
 BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
 EXTRA_LIBRARIES += libbitcoin_wallet.a
@@ -60,10 +60,10 @@ EXTRA_LIBRARIES += libbitcoin_proton.a
 endif
 
 if BUILD_BITCOIN_LIBS
-lib_LTLIBRARIES = libzcashconsensus.la
-LIBZCASH_CONSENSUS=libzcashconsensus.la
+lib_LTLIBRARIES = libseventeenseventysixconsensus.la
+LIBSEVENTEENSEVENTYSIX_CONSENSUS=libseventeenseventysixconsensus.la
 else
-LIBZCASH_CONSENSUS=
+LIBSEVENTEENSEVENTYSIX_CONSENSUS=
 endif
 
 bin_PROGRAMS =
@@ -71,23 +71,23 @@ noinst_PROGRAMS =
 TESTS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += zcashd
+  bin_PROGRAMS += seventeenseventysixd
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += zcash-cli zcash-tx
+  bin_PROGRAMS += seventeenseventysix-cli seventeenseventysix-tx
 endif
 
-LIBZCASH_H = \
-  zcash/IncrementalMerkleTree.hpp \
-  zcash/NoteEncryption.hpp \
-  zcash/Address.hpp \
-  zcash/JoinSplit.hpp \
-  zcash/Note.hpp \
-  zcash/prf.h \
-  zcash/Proof.hpp \
-  zcash/util.h \
-  zcash/Zcash.h
+LIBSEVENTEENSEVENTYSIX_H = \
+  seventeenseventysix/IncrementalMerkleTree.hpp \
+  seventeenseventysix/NoteEncryption.hpp \
+  seventeenseventysix/Address.hpp \
+  seventeenseventysix/JoinSplit.hpp \
+  seventeenseventysix/Note.hpp \
+  seventeenseventysix/prf.h \
+  seventeenseventysix/Proof.hpp \
+  seventeenseventysix/util.h \
+  seventeenseventysix/SeventeenSeventySix.h
 
 .PHONY: FORCE check-symbols check-security
 # bitcoin core #
@@ -202,7 +202,7 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 libbitcoin_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: zcashd
+# server: seventeenseventysixd
 libbitcoin_server_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 libbitcoin_server_a_SOURCES = \
   sendalert.cpp \
@@ -241,7 +241,7 @@ libbitcoin_server_a_SOURCES = \
   txmempool.cpp \
   validationinterface.cpp \
   $(BITCOIN_CORE_H) \
-  $(LIBZCASH_H)
+  $(LIBSEVENTEENSEVENTYSIX_H)
 
 if ENABLE_ZMQ
 LIBBITCOIN_ZMQ=libbitcoin_zmq.a
@@ -263,7 +263,7 @@ libbitcoin_proton_a_SOURCES = \
   amqp/amqppublishnotifier.cpp
 endif
 
-# wallet: zcashd, but only linked when wallet enabled
+# wallet: seventeenseventysixd, but only linked when wallet enabled
 libbitcoin_wallet_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_SOURCES = \
   utiltest.cpp \
@@ -279,7 +279,7 @@ libbitcoin_wallet_a_SOURCES = \
   wallet/wallet_ismine.cpp \
   wallet/walletdb.cpp \
   $(BITCOIN_CORE_H) \
-  $(LIBZCASH_H)
+  $(LIBSEVENTEENSEVENTYSIX_H)
 
 # crypto primitives library
 crypto_libbitcoin_crypto_a_CPPFLAGS = $(BITCOIN_CONFIG_INCLUDES)
@@ -313,7 +313,7 @@ crypto_libbitcoin_crypto_a_SOURCES += \
   ${EQUIHASH_TROMP_SOURCES}
 endif
 
-# common: shared between zcashd and non-server tools
+# common: shared between seventeenseventysixd and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_common_a_SOURCES = \
   amount.cpp \
@@ -339,7 +339,7 @@ libbitcoin_common_a_SOURCES = \
   script/sign.cpp \
   script/standard.cpp \
   $(BITCOIN_CORE_H) \
-  $(LIBZCASH_H)
+  $(LIBSEVENTEENSEVENTYSIX_H)
 
 # util: shared between all executables.
 # This library *must* be included to make sure that the glibc
@@ -362,75 +362,75 @@ libbitcoin_util_a_SOURCES = \
   utilstrencodings.cpp \
   utiltime.cpp \
   $(BITCOIN_CORE_H) \
-  $(LIBZCASH_H)
+  $(LIBSEVENTEENSEVENTYSIX_H)
 
 if GLIBC_BACK_COMPAT
 libbitcoin_util_a_SOURCES += compat/glibc_compat.cpp
 endif
 
-# cli: zcash-cli
+# cli: seventeenseventysix-cli
 libbitcoin_cli_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_SOURCES = \
   rpcclient.cpp \
   $(BITCOIN_CORE_H) \
-  $(LIBZCASH_H)
+  $(LIBSEVENTEENSEVENTYSIX_H)
 
 nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind binary #
-zcashd_SOURCES = bitcoind.cpp
-zcashd_CPPFLAGS = $(BITCOIN_INCLUDES)
-zcashd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+seventeenseventysixd_SOURCES = bitcoind.cpp
+seventeenseventysixd_CPPFLAGS = $(BITCOIN_INCLUDES)
+seventeenseventysixd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-zcashd_SOURCES += bitcoind-res.rc
+seventeenseventysixd_SOURCES += bitcoind-res.rc
 endif
 
-zcashd_LDADD = \
+seventeenseventysixd_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_COMMON) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO) \
-  $(LIBZCASH) \
+  $(LIBSEVENTEENSEVENTYSIX) \
   $(LIBLEVELDB) \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
 if ENABLE_ZMQ
-zcashd_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+seventeenseventysixd_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
-zcashd_LDADD += libbitcoin_wallet.a
+seventeenseventysixd_LDADD += libbitcoin_wallet.a
 endif
 
-zcashd_LDADD += \
+seventeenseventysixd_LDADD += \
   $(BOOST_LIBS) \
   $(BDB_LIBS) \
   $(SSL_LIBS) \
   $(CRYPTO_LIBS) \
   $(EVENT_PTHREADS_LIBS) \
   $(EVENT_LIBS) \
-  $(LIBZCASH) \
+  $(LIBSEVENTEENSEVENTYSIX) \
   $(LIBBITCOIN_CRYPTO) \
-  $(LIBZCASH_LIBS)
+  $(LIBSEVENTEENSEVENTYSIX_LIBS)
 
 if ENABLE_PROTON
-zcashd_LDADD += $(LIBBITCOIN_PROTON) $(PROTON_LIBS)
+seventeenseventysixd_LDADD += $(LIBBITCOIN_PROTON) $(PROTON_LIBS)
 endif
 
 # bitcoin-cli binary #
-zcash_cli_SOURCES = bitcoin-cli.cpp
-zcash_cli_CPPFLAGS = $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-zcash_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+seventeenseventysix_cli_SOURCES = bitcoin-cli.cpp
+seventeenseventysix_cli_CPPFLAGS = $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+seventeenseventysix_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-zcash_cli_SOURCES += bitcoin-cli-res.rc
+seventeenseventysix_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-zcash_cli_LDADD = \
+seventeenseventysix_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_UTIL) \
@@ -438,62 +438,62 @@ zcash_cli_LDADD = \
   $(SSL_LIBS) \
   $(CRYPTO_LIBS) \
   $(EVENT_LIBS) \
-  $(LIBZCASH) \
+  $(LIBSEVENTEENSEVENTYSIX) \
   $(LIBBITCOIN_CRYPTO) \
-  $(LIBZCASH_LIBS)
+  $(LIBSEVENTEENSEVENTYSIX_LIBS)
 #
 
-# zcash-tx binary #
-zcash_tx_SOURCES = bitcoin-tx.cpp
-zcash_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
-zcash_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# seventeenseventysix-tx binary #
+seventeenseventysix_tx_SOURCES = bitcoin-tx.cpp
+seventeenseventysix_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
+seventeenseventysix_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-zcash_tx_SOURCES += bitcoin-tx-res.rc
+seventeenseventysix_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
-# FIXME: Is libzcash needed for zcash_tx?
-zcash_tx_LDADD = \
+# FIXME: Is libseventeenseventysix needed for seventeenseventysix_tx?
+seventeenseventysix_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBSECP256K1) \
-  $(LIBZCASH) \
+  $(LIBSEVENTEENSEVENTYSIX) \
   $(LIBBITCOIN_CRYPTO) \
-  $(LIBZCASH_LIBS)
+  $(LIBSEVENTEENSEVENTYSIX_LIBS)
 
-zcash_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+seventeenseventysix_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
-# zcash protocol primitives #
-libzcash_a_SOURCES = \
-  zcash/IncrementalMerkleTree.cpp \
-  zcash/NoteEncryption.cpp \
-  zcash/Address.cpp \
-  zcash/JoinSplit.cpp \
-  zcash/Proof.cpp \
-  zcash/Note.cpp \
-  zcash/prf.cpp \
-  zcash/util.cpp \
-  zcash/circuit/commitment.tcc \
-  zcash/circuit/gadget.tcc \
-  zcash/circuit/merkle.tcc \
-  zcash/circuit/note.tcc \
-  zcash/circuit/prfs.tcc \
-  zcash/circuit/utils.tcc
+# seventeenseventysix protocol primitives #
+libseventeenseventysix_a_SOURCES = \
+  seventeenseventysix/IncrementalMerkleTree.cpp \
+  seventeenseventysix/NoteEncryption.cpp \
+  seventeenseventysix/Address.cpp \
+  seventeenseventysix/JoinSplit.cpp \
+  seventeenseventysix/Proof.cpp \
+  seventeenseventysix/Note.cpp \
+  seventeenseventysix/prf.cpp \
+  seventeenseventysix/util.cpp \
+  seventeenseventysix/circuit/commitment.tcc \
+  seventeenseventysix/circuit/gadget.tcc \
+  seventeenseventysix/circuit/merkle.tcc \
+  seventeenseventysix/circuit/note.tcc \
+  seventeenseventysix/circuit/prfs.tcc \
+  seventeenseventysix/circuit/utils.tcc
 
-libzcash_a_CPPFLAGS = -DMULTICORE -fopenmp -fPIC -DBINARY_OUTPUT -DCURVE_ALT_BN128 -DBOOST_SPIRIT_THREADSAFE -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS $(HARDENED_CPPFLAGS) -pipe -O1 -g -Wstack-protector -fstack-protector-all -fPIE -fvisibility=hidden -DSTATIC $(BITCOIN_INCLUDES)
+libseventeenseventysix_a_CPPFLAGS = -DMULTICORE -fopenmp -fPIC -DBINARY_OUTPUT -DCURVE_ALT_BN128 -DBOOST_SPIRIT_THREADSAFE -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS $(HARDENED_CPPFLAGS) -pipe -O1 -g -Wstack-protector -fstack-protector-all -fPIE -fvisibility=hidden -DSTATIC $(BITCOIN_INCLUDES)
 
-libzcash_a_CXXFLAGS = $(HARDENED_CXXFLAGS) -fwrapv -fno-strict-aliasing
+libseventeenseventysix_a_CXXFLAGS = $(HARDENED_CXXFLAGS) -fwrapv -fno-strict-aliasing
 
-libzcash_a_LDFLAGS = $(HARDENED_LDFLAGS)
+libseventeenseventysix_a_LDFLAGS = $(HARDENED_LDFLAGS)
 
-libzcash_a_CPPFLAGS += -DMONTGOMERY_OUTPUT
+libseventeenseventysix_a_CPPFLAGS += -DMONTGOMERY_OUTPUT
 
-# zcashconsensus library #
+# seventeenseventysixconsensus library #
 if BUILD_BITCOIN_LIBS
-include_HEADERS = script/zcashconsensus.h
-libzcashconsensus_la_SOURCES = \
+include_HEADERS = script/seventeenseventysixconsensus.h
+libseventeenseventysixconsensus_la_SOURCES = \
   crypto/equihash.cpp \
   crypto/hmac_sha512.cpp \
   crypto/ripemd160.cpp \
@@ -503,19 +503,19 @@ libzcashconsensus_la_SOURCES = \
   hash.cpp \
   primitives/transaction.cpp \
   pubkey.cpp \
-  script/zcashconsensus.cpp \
+  script/seventeenseventysixconsensus.cpp \
   script/interpreter.cpp \
   script/script.cpp \
   uint256.cpp \
   utilstrencodings.cpp
 
 if GLIBC_BACK_COMPAT
-  libzcashconsensus_la_SOURCES += compat/glibc_compat.cpp
+  libseventeenseventysixconsensus_la_SOURCES += compat/glibc_compat.cpp
 endif
 
-libzcashconsensus_la_LDFLAGS = -no-undefined $(RELDFLAGS)
-libzcashconsensus_la_LIBADD = $(LIBSECP256K1)
-libzcashconsensus_la_CPPFLAGS = -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
+libseventeenseventysixconsensus_la_LDFLAGS = -no-undefined $(RELDFLAGS)
+libseventeenseventysixconsensus_la_LIBADD = $(LIBSECP256K1)
+libseventeenseventysixconsensus_la_CPPFLAGS = -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
 
 endif
 #
@@ -561,4 +561,4 @@ include Makefile.test.include
 include Makefile.gtest.include
 endif
 
-include Makefile.zcash.include
+include Makefile.seventeenseventysix.include

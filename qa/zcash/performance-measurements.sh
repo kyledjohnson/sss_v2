@@ -6,71 +6,71 @@ DATADIR=./benchmark-datadir
 SHA256CMD="$(command -v sha256sum || echo shasum)"
 SHA256ARGS="$(command -v sha256sum >/dev/null || echo '-a 256')"
 
-function zcash_rpc {
-    ./src/zcash-cli -datadir="$DATADIR" -rpcuser=user -rpcpassword=password -rpcport=5983 "$@"
+function seventeenseventysix_rpc {
+    ./src/seventeenseventysix-cli -datadir="$DATADIR" -rpcuser=user -rpcpassword=password -rpcport=5983 "$@"
 }
 
-function zcash_rpc_slow {
+function seventeenseventysix_rpc_slow {
     # Timeout of 1 hour
-    zcash_rpc -rpcclienttimeout=3600 "$@"
+    seventeenseventysix_rpc -rpcclienttimeout=3600 "$@"
 }
 
-function zcash_rpc_veryslow {
+function seventeenseventysix_rpc_veryslow {
     # Timeout of 2.5 hours
-    zcash_rpc -rpcclienttimeout=9000 "$@"
+    seventeenseventysix_rpc -rpcclienttimeout=9000 "$@"
 }
 
-function zcash_rpc_wait_for_start {
-    zcash_rpc -rpcwait getinfo > /dev/null
+function seventeenseventysix_rpc_wait_for_start {
+    seventeenseventysix_rpc -rpcwait getinfo > /dev/null
 }
 
-function zcashd_generate {
-    zcash_rpc generate 101 > /dev/null
+function seventeenseventysixd_generate {
+    seventeenseventysix_rpc generate 101 > /dev/null
 }
 
-function zcashd_start {
+function seventeenseventysixd_start {
     rm -rf "$DATADIR"
     mkdir -p "$DATADIR/regtest"
-    touch "$DATADIR/zcash.conf"
-    ./src/zcashd -regtest -datadir="$DATADIR" -rpcuser=user -rpcpassword=password -rpcport=5983 -showmetrics=0 &
-    ZCASHD_PID=$!
-    zcash_rpc_wait_for_start
+    touch "$DATADIR/seventeenseventysix.conf"
+    ./src/seventeenseventysixd -regtest -datadir="$DATADIR" -rpcuser=user -rpcpassword=password -rpcport=5983 -showmetrics=0 &
+    SEVENTEENSEVENTYSIXD_PID=$!
+    seventeenseventysix_rpc_wait_for_start
 }
 
-function zcashd_stop {
-    zcash_rpc stop > /dev/null
-    wait $ZCASHD_PID
+function seventeenseventysixd_stop {
+    seventeenseventysix_rpc stop > /dev/null
+    wait $SEVENTEENSEVENTYSIXD_PID
 }
 
-function zcashd_massif_start {
+function seventeenseventysixd_massif_start {
     rm -rf "$DATADIR"
     mkdir -p "$DATADIR/regtest"
-    touch "$DATADIR/zcash.conf"
+    touch "$DATADIR/seventeenseventysix.conf"
     rm -f massif.out
-    valgrind --tool=massif --time-unit=ms --massif-out-file=massif.out ./src/zcashd -regtest -datadir="$DATADIR" -rpcuser=user -rpcpassword=password -rpcport=5983 -showmetrics=0 &
-    ZCASHD_PID=$!
-    zcash_rpc_wait_for_start
+    valgrind --tool=massif --time-unit=ms --massif-out-file=massif.out ./src/seventeenseventysixd -regtest -datadir="$DATADIR" -rpcuser=user -rpcpassword=password -rpcport=5983 -showmetrics=0 &
+    SEVENTEENSEVENTYSIXD_PID=$!
+    seventeenseventysix_rpc_wait_for_start
 }
 
-function zcashd_massif_stop {
-    zcash_rpc stop > /dev/null
-    wait $ZCASHD_PID
+function seventeenseventysixd_massif_stop {
+    seventeenseventysix_rpc stop > /dev/null
+    wait $SEVENTEENSEVENTYSIXD_PID
     ms_print massif.out
 }
 
-function zcashd_valgrind_start {
+function seventeenseventysixd_valgrind_start {
     rm -rf "$DATADIR"
     mkdir -p "$DATADIR/regtest"
-    touch "$DATADIR/zcash.conf"
+    touch "$DATADIR/seventeenseventysix.conf"
     rm -f valgrind.out
-    valgrind --leak-check=yes -v --error-limit=no --log-file="valgrind.out" ./src/zcashd -regtest -datadir="$DATADIR" -rpcuser=user -rpcpassword=password -rpcport=5983 -showmetrics=0 &
-    ZCASHD_PID=$!
-    zcash_rpc_wait_for_start
+    valgrind --leak-check=yes -v --error-limit=no --log-file="valgrind.out" ./src/seventeenseventysixd -regtest -datadir="$DATADIR" -rpcuser=user -rpcpassword=password -rpcport=5983 -showmetrics=0 &
+    SEVENTEENSEVENTYSIXD_PID=$!
+    seventeenseventysix_rpc_wait_for_start
 }
 
-function zcashd_valgrind_stop {
-    zcash_rpc stop > /dev/null
-    wait $ZCASHD_PID
+function seventeenseventysixd_valgrind_stop {
+    seventeenseventysix_rpc stop > /dev/null
+    wait $SEVENTEENSEVENTYSIXD_PID
     cat valgrind.out
 }
 
@@ -86,9 +86,9 @@ EOF
         ARCHIVE_RESULT=1
     fi
     if [ $ARCHIVE_RESULT -ne 0 ]; then
-        zcashd_stop
+        seventeenseventysixd_stop
         echo
-        echo "Please generate it using qa/zcash/create_benchmark_archive.py"
+        echo "Please generate it using qa/seventeenseventysix/create_benchmark_archive.py"
         echo "and place it in the base directory of the repository."
         echo "Usage details are inside the Python script."
         exit 1
@@ -101,137 +101,137 @@ case "$1" in
     *)
         case "$2" in
             verifyjoinsplit)
-                zcashd_start
-                RAWJOINSPLIT=$(zcash_rpc zcsamplejoinsplit)
-                zcashd_stop
+                seventeenseventysixd_start
+                RAWJOINSPLIT=$(seventeenseventysix_rpc zcsamplejoinsplit)
+                seventeenseventysixd_stop
         esac
 esac
 
 case "$1" in
     time)
-        zcashd_start
+        seventeenseventysixd_start
         case "$2" in
             sleep)
-                zcash_rpc zcbenchmark sleep 10
+                seventeenseventysix_rpc zcbenchmark sleep 10
                 ;;
             parameterloading)
-                zcash_rpc zcbenchmark parameterloading 10
+                seventeenseventysix_rpc zcbenchmark parameterloading 10
                 ;;
             createjoinsplit)
-                zcash_rpc zcbenchmark createjoinsplit 10 "${@:3}"
+                seventeenseventysix_rpc zcbenchmark createjoinsplit 10 "${@:3}"
                 ;;
             verifyjoinsplit)
-                zcash_rpc zcbenchmark verifyjoinsplit 1000 "\"$RAWJOINSPLIT\""
+                seventeenseventysix_rpc zcbenchmark verifyjoinsplit 1000 "\"$RAWJOINSPLIT\""
                 ;;
             solveequihash)
-                zcash_rpc_slow zcbenchmark solveequihash 50 "${@:3}"
+                seventeenseventysix_rpc_slow zcbenchmark solveequihash 50 "${@:3}"
                 ;;
             verifyequihash)
-                zcash_rpc zcbenchmark verifyequihash 1000
+                seventeenseventysix_rpc zcbenchmark verifyequihash 1000
                 ;;
             validatelargetx)
-                zcash_rpc zcbenchmark validatelargetx 5
+                seventeenseventysix_rpc zcbenchmark validatelargetx 5
                 ;;
             trydecryptnotes)
-                zcash_rpc zcbenchmark trydecryptnotes 1000 "${@:3}"
+                seventeenseventysix_rpc zcbenchmark trydecryptnotes 1000 "${@:3}"
                 ;;
             incnotewitnesses)
-                zcash_rpc zcbenchmark incnotewitnesses 100 "${@:3}"
+                seventeenseventysix_rpc zcbenchmark incnotewitnesses 100 "${@:3}"
                 ;;
             connectblockslow)
                 extract_benchmark_data
-                zcash_rpc zcbenchmark connectblockslow 10
+                seventeenseventysix_rpc zcbenchmark connectblockslow 10
                 ;;
             *)
-                zcashd_stop
+                seventeenseventysixd_stop
                 echo "Bad arguments."
                 exit 1
         esac
-        zcashd_stop
+        seventeenseventysixd_stop
         ;;
     memory)
-        zcashd_massif_start
+        seventeenseventysixd_massif_start
         case "$2" in
             sleep)
-                zcash_rpc zcbenchmark sleep 1
+                seventeenseventysix_rpc zcbenchmark sleep 1
                 ;;
             parameterloading)
-                zcash_rpc zcbenchmark parameterloading 1
+                seventeenseventysix_rpc zcbenchmark parameterloading 1
                 ;;
             createjoinsplit)
-                zcash_rpc_slow zcbenchmark createjoinsplit 1 "${@:3}"
+                seventeenseventysix_rpc_slow zcbenchmark createjoinsplit 1 "${@:3}"
                 ;;
             verifyjoinsplit)
-                zcash_rpc zcbenchmark verifyjoinsplit 1 "\"$RAWJOINSPLIT\""
+                seventeenseventysix_rpc zcbenchmark verifyjoinsplit 1 "\"$RAWJOINSPLIT\""
                 ;;
             solveequihash)
-                zcash_rpc_slow zcbenchmark solveequihash 1 "${@:3}"
+                seventeenseventysix_rpc_slow zcbenchmark solveequihash 1 "${@:3}"
                 ;;
             verifyequihash)
-                zcash_rpc zcbenchmark verifyequihash 1
+                seventeenseventysix_rpc zcbenchmark verifyequihash 1
                 ;;
             trydecryptnotes)
-                zcash_rpc zcbenchmark trydecryptnotes 1 "${@:3}"
+                seventeenseventysix_rpc zcbenchmark trydecryptnotes 1 "${@:3}"
                 ;;
             incnotewitnesses)
-                zcash_rpc zcbenchmark incnotewitnesses 1 "${@:3}"
+                seventeenseventysix_rpc zcbenchmark incnotewitnesses 1 "${@:3}"
                 ;;
             connectblockslow)
                 extract_benchmark_data
-                zcash_rpc zcbenchmark connectblockslow 1
+                seventeenseventysix_rpc zcbenchmark connectblockslow 1
                 ;;
             *)
-                zcashd_massif_stop
+                seventeenseventysixd_massif_stop
                 echo "Bad arguments."
                 exit 1
         esac
-        zcashd_massif_stop
+        seventeenseventysixd_massif_stop
         rm -f massif.out
         ;;
     valgrind)
-        zcashd_valgrind_start
+        seventeenseventysixd_valgrind_start
         case "$2" in
             sleep)
-                zcash_rpc zcbenchmark sleep 1
+                seventeenseventysix_rpc zcbenchmark sleep 1
                 ;;
             parameterloading)
-                zcash_rpc zcbenchmark parameterloading 1
+                seventeenseventysix_rpc zcbenchmark parameterloading 1
                 ;;
             createjoinsplit)
-                zcash_rpc_veryslow zcbenchmark createjoinsplit 1 "${@:3}"
+                seventeenseventysix_rpc_veryslow zcbenchmark createjoinsplit 1 "${@:3}"
                 ;;
             verifyjoinsplit)
-                zcash_rpc zcbenchmark verifyjoinsplit 1 "\"$RAWJOINSPLIT\""
+                seventeenseventysix_rpc zcbenchmark verifyjoinsplit 1 "\"$RAWJOINSPLIT\""
                 ;;
             solveequihash)
-                zcash_rpc_veryslow zcbenchmark solveequihash 1 "${@:3}"
+                seventeenseventysix_rpc_veryslow zcbenchmark solveequihash 1 "${@:3}"
                 ;;
             verifyequihash)
-                zcash_rpc zcbenchmark verifyequihash 1
+                seventeenseventysix_rpc zcbenchmark verifyequihash 1
                 ;;
             trydecryptnotes)
-                zcash_rpc zcbenchmark trydecryptnotes 1 "${@:3}"
+                seventeenseventysix_rpc zcbenchmark trydecryptnotes 1 "${@:3}"
                 ;;
             incnotewitnesses)
-                zcash_rpc zcbenchmark incnotewitnesses 1 "${@:3}"
+                seventeenseventysix_rpc zcbenchmark incnotewitnesses 1 "${@:3}"
                 ;;
             connectblockslow)
                 extract_benchmark_data
-                zcash_rpc zcbenchmark connectblockslow 1
+                seventeenseventysix_rpc zcbenchmark connectblockslow 1
                 ;;
             *)
-                zcashd_valgrind_stop
+                seventeenseventysixd_valgrind_stop
                 echo "Bad arguments."
                 exit 1
         esac
-        zcashd_valgrind_stop
+        seventeenseventysixd_valgrind_stop
         rm -f valgrind.out
         ;;
     valgrind-tests)
         case "$2" in
             gtest)
                 rm -f valgrind.out
-                valgrind --leak-check=yes -v --error-limit=no --log-file="valgrind.out" ./src/zcash-gtest
+                valgrind --leak-check=yes -v --error-limit=no --log-file="valgrind.out" ./src/seventeenseventysix-gtest
                 cat valgrind.out
                 rm -f valgrind.out
                 ;;

@@ -1,22 +1,22 @@
 noinst_PROGRAMS += \
-  zcash/GenerateParams \
-  zcash/CreateJoinSplit
+  seventeenseventysix/GenerateParams \
+  seventeenseventysix/CreateJoinSplit
 
 # tool for generating our public parameters
-zcash_GenerateParams_SOURCES = zcash/GenerateParams.cpp
-zcash_GenerateParams_LDADD = \
+seventeenseventysix_GenerateParams_SOURCES = seventeenseventysix/GenerateParams.cpp
+seventeenseventysix_GenerateParams_LDADD = \
   $(BOOST_LIBS) \
-  $(LIBZCASH) \
+  $(LIBSEVENTEENSEVENTYSIX) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO) \
-  $(LIBZCASH_LIBS)
+  $(LIBSEVENTEENSEVENTYSIX_LIBS)
 
 # tool for profiling the creation of joinsplits
-zcash_CreateJoinSplit_SOURCES = zcash/CreateJoinSplit.cpp
-zcash_CreateJoinSplit_LDADD = \
+seventeenseventysix_CreateJoinSplit_SOURCES = seventeenseventysix/CreateJoinSplit.cpp
+seventeenseventysix_CreateJoinSplit_LDADD = \
   $(LIBBITCOIN_COMMON) \
-  $(LIBZCASH) \
+  $(LIBSEVENTEENSEVENTYSIX) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO) \
   $(BOOST_LIBS) \
-  $(LIBZCASH_LIBS)
+  $(LIBSEVENTEENSEVENTYSIX_LIBS)

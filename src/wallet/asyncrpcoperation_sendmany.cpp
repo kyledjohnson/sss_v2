@@ -1,4 +1,4 @@
-// Copyright (c) 2016 The Zcash developers
+// Copyright (c) 2016 The SeventeenSeventySix developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,7 +19,7 @@
 #include "script/interpreter.h"
 #include "utiltime.h"
 #include "rpcprotocol.h"
-#include "zcash/IncrementalMerkleTree.hpp"
+#include "seventeenseventysix/IncrementalMerkleTree.hpp"
 #include "sodium.h"
 #include "miner.h"
 
@@ -28,7 +28,7 @@
 #include <thread>
 #include <string>
 
-using namespace libzcash;
+using namespace libseventeenseventysix;
 
 int find_output(UniValue obj, int n) {
     UniValue outputMapValue = find_value(obj, "outputmap");
@@ -535,7 +535,7 @@ bool AsyncRPCOperation_sendmany::main_impl() {
 
             // Decrypt the change note's ciphertext to retrieve some data we need
             ZCNoteDecryption decryptor(spendingkey_.viewing_key());
-            auto hSig = prevJoinSplit.h_sig(*pzcashParams, tx_.joinSplitPubKey);
+            auto hSig = prevJoinSplit.h_sig(*pseventeenseventysixParams, tx_.joinSplitPubKey);
             try {
                 NotePlaintext plaintext = NotePlaintext::decrypt(
                         decryptor,
@@ -935,14 +935,14 @@ UniValue AsyncRPCOperation_sendmany::perform_joinsplit(
             );
 
     // Generate the proof, this can take over a minute.
-    boost::array<libzcash::JSInput, ZC_NUM_JS_INPUTS> inputs
+    boost::array<libseventeenseventysix::JSInput, ZC_NUM_JS_INPUTS> inputs
             {info.vjsin[0], info.vjsin[1]};
-    boost::array<libzcash::JSOutput, ZC_NUM_JS_OUTPUTS> outputs
+    boost::array<libseventeenseventysix::JSOutput, ZC_NUM_JS_OUTPUTS> outputs
             {info.vjsout[0], info.vjsout[1]};
     boost::array<size_t, ZC_NUM_JS_INPUTS> inputMap;
     boost::array<size_t, ZC_NUM_JS_OUTPUTS> outputMap;
     JSDescription jsdesc = JSDescription::Randomized(
-            *pzcashParams,
+            *pseventeenseventysixParams,
             joinSplitPubKey_,
             anchor,
             inputs,
@@ -954,8 +954,8 @@ UniValue AsyncRPCOperation_sendmany::perform_joinsplit(
             !this->testmode);
 
     {
-        auto verifier = libzcash::ProofVerifier::Strict();
-        if (!(jsdesc.Verify(*pzcashParams, verifier, joinSplitPubKey_))) {
+        auto verifier = libseventeenseventysix::ProofVerifier::Strict();
+        if (!(jsdesc.Verify(*pseventeenseventysixParams, verifier, joinSplitPubKey_))) {
             throw std::runtime_error("error verifying joinsplit");
         }
     }
@@ -998,7 +998,7 @@ UniValue AsyncRPCOperation_sendmany::perform_joinsplit(
         ss2 << ((unsigned char) 0x00);
         ss2 << jsdesc.ephemeralKey;
         ss2 << jsdesc.ciphertexts[0];
-        ss2 << jsdesc.h_sig(*pzcashParams, joinSplitPubKey_);
+        ss2 << jsdesc.h_sig(*pseventeenseventysixParams, joinSplitPubKey_);
 
         encryptedNote1 = HexStr(ss2.begin(), ss2.end());
     }
@@ -1007,7 +1007,7 @@ UniValue AsyncRPCOperation_sendmany::perform_joinsplit(
         ss2 << ((unsigned char) 0x01);
         ss2 << jsdesc.ephemeralKey;
         ss2 << jsdesc.ciphertexts[1];
-        ss2 << jsdesc.h_sig(*pzcashParams, joinSplitPubKey_);
+        ss2 << jsdesc.h_sig(*pseventeenseventysixParams, joinSplitPubKey_);
 
         encryptedNote2 = HexStr(ss2.begin(), ss2.end());
     }

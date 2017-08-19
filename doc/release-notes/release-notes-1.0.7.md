@@ -33,13 +33,13 @@ Gavin Andresen (2):
 Jack Grigg (11):
       Remove reference to -reindex-chainstate
       Treat metrics screen as non-interactive for now
-      Adjust gen-manpages.sh for Zcash, use in Debian builds
-      Regenerate and collate Zcash manpages, delete Bitcoin ones
+      Adjust gen-manpages.sh for SeventeenSeventySix, use in Debian builds
+      Regenerate and collate SeventeenSeventySix manpages, delete Bitcoin ones
       Update release process with gen-manpages.sh
-      Adjust blockheaderToJSON() for Zcash block header
-      Adjust fundrawtransaction RPC test for Zcash
-      Re-encode t-addrs in disablewallet.py with Zcash prefixes
-      BTC -> ZEC in paytxfee RPC docs
+      Adjust blockheaderToJSON() for SeventeenSeventySix block header
+      Adjust fundrawtransaction RPC test for SeventeenSeventySix
+      Re-encode t-addrs in disablewallet.py with SeventeenSeventySix prefixes
+      BTC -> SSS in paytxfee RPC docs
       Update default RPC port in help strings
       Fix typo in listbanned RPC keys
 

@@ -1,9 +1,9 @@
-// Copyright (c) 2017 The Zcash developers
+// Copyright (c) 2017 The SeventeenSeventySix developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef ZCASH_DEPRECATION_H
-#define ZCASH_DEPRECATION_H
+#ifndef SEVENTEENSEVENTYSIX_DEPRECATION_H
+#define SEVENTEENSEVENTYSIX_DEPRECATION_H
 
 // Deprecation policy is 4th third-Tuesday after a release
 static const int APPROX_RELEASE_HEIGHT = 167200;
@@ -20,4 +20,4 @@ static const int DEPRECATION_WARN_LIMIT = 14 * 24 * 24; // 2 weeks
  */
 void EnforceNodeDeprecation(int nHeight, bool forceLogging=false);
 
-#endif // ZCASH_DEPRECATION_H
+#endif // SEVENTEENSEVENTYSIX_DEPRECATION_H

@@ -25,7 +25,7 @@
 
 CClientUIInterface uiInterface; // Declared but not defined in ui_interface.h
 CWallet* pwalletMain;
-ZCJoinSplit *pzcashParams;
+ZCJoinSplit *pseventeenseventysixParams;
 
 extern bool fPrintToConsole;
 extern void noui_connect();
@@ -34,7 +34,7 @@ BasicTestingSetup::BasicTestingSetup()
 {
         assert(init_and_check_sodium() != -1);
         ECC_Start();
-        pzcashParams = ZCJoinSplit::Unopened();
+        pseventeenseventysixParams = ZCJoinSplit::Unopened();
         SetupEnvironment();
         fPrintToDebugLog = false; // don't want to write to debug.log file
         fCheckBlockIndex = true;
@@ -43,7 +43,7 @@ BasicTestingSetup::BasicTestingSetup()
 BasicTestingSetup::~BasicTestingSetup()
 {
         ECC_Stop();
-        delete pzcashParams;
+        delete pseventeenseventysixParams;
 }
 
 TestingSetup::TestingSetup()

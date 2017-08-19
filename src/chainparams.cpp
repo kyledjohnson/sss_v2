@@ -36,7 +36,7 @@ class CMainParams : public CChainParams {
 public:
     CMainParams() {
         strNetworkID = "main";
-        strCurrencyUnits = "ZEC";
+        strCurrencyUnits = "SSS";
         consensus.fCoinbaseMustBeProtected = true;
         consensus.nSubsidySlowStartInterval = 20000;
         consensus.nSubsidyHalvingInterval = 840000;
@@ -54,11 +54,11 @@ public:
          * The message start string should be awesome! ⓩ❤
          */
         pchMessageStart[0] = 0x24;
-        pchMessageStart[1] = 0xe9;
-        pchMessageStart[2] = 0x27;
-        pchMessageStart[3] = 0x64;
+        pchMessageStart[1] = 0x24;
+        pchMessageStart[2] = 0x24;
+        pchMessageStart[3] = 0x24;
         vAlertPubKey = ParseHex("04b7ecf0baa90495ceb4e4090f6b2fd37eec1e9c85fac68a487f3ce11589692e4a317479316ee814e066638e1db54e37a10689b70286e6315b1087b6615d179264");
-        nDefaultPort = 8233;
+        nDefaultPort = 8235;
         nMaxTipAge = 24 * 60 * 60;
         nPruneAfterHeight = 100000;
         const size_t N = 200, K = 9;
@@ -72,9 +72,9 @@ public:
          * database (and is in any case of zero value).
          *
          * >>> from pyblake2 import blake2s
-         * >>> 'Zcash' + blake2s(b'The Economist 2016-10-29 Known unknown: Another crypto-currency is born. BTC#436254 0000000000000000044f321997f336d2908cf8c8d6893e88dbf067e2d949487d ETH#2521903 483039a6b6bd8bd05f0584f9a078d075e454925eb71c1f13eaff59b405a721bb DJIA close on 27 Oct 2016: 18,169.68').hexdigest()
+         * >>> 'SeventeenSeventySix' + blake2s(b'The Economist 2016-10-29 Known unknown: Another crypto-currency is born. BTC#436254 0000000000000000044f321997f336d2908cf8c8d6893e88dbf067e2d949487d ETH#2521903 483039a6b6bd8bd05f0584f9a078d075e454925eb71c1f13eaff59b405a721bb DJIA close on 27 Oct 2016: 18,169.68').hexdigest()
          */
-        const char* pszTimestamp = "Zcash0b9c4eef8b7cc417ee5001e3500984b6fea35683a7cac141a043c42064835d34";
+        const char* pszTimestamp = "SeventeenSeventySix0b9c4eef8b7cc417ee5001e3500984b6fea35683a7cac141a043c42064835d34";
         CMutableTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
@@ -96,7 +96,7 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("z.cash", "dnsseed.z.cash")); // Zcash
+        vSeeds.push_back(CDNSSeedData("z.cash", "dnsseed.z.cash")); // SeventeenSeventySix
         vSeeds.push_back(CDNSSeedData("str4d.xyz", "dnsseed.str4d.xyz")); // @str4d
         vSeeds.push_back(CDNSSeedData("znodes.org", "dnsseed.znodes.org")); // @bitcartel
 
@@ -217,7 +217,7 @@ public:
         pchMessageStart[2] = 0xf9;
         pchMessageStart[3] = 0xbf;
         vAlertPubKey = ParseHex("044e7a1553392325c871c5ace5d6ad73501c66f4c185d6b0453cf45dec5a1322e705c672ac1a27ef7cdaf588c10effdf50ed5f95f85f2f54a5f6159fca394ed0c6");
-        nDefaultPort = 18233;
+        nDefaultPort = 18235;
         nPruneAfterHeight = 1000;
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
@@ -230,7 +230,7 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("z.cash", "dnsseed.testnet.z.cash")); // Zcash
+        vSeeds.push_back(CDNSSeedData("z.cash", "dnsseed.testnet.z.cash")); // SeventeenSeventySix
 
         // guarantees the first 2 characters, when base58 encoded, are "tm"
         base58Prefixes[PUBKEY_ADDRESS]     = {0x1D,0x25};
@@ -316,7 +316,7 @@ public:
         genesis.nNonce = uint256S("0x0000000000000000000000000000000000000000000000000000000000000009");
         genesis.nSolution = ParseHex("01936b7db1eb4ac39f151b8704642d0a8bda13ec547d54cd5e43ba142fc6d8877cab07b3");
         consensus.hashGenesisBlock = genesis.GetHash();
-        nDefaultPort = 18344;
+        nDefaultPort = 18235;
         assert(consensus.hashGenesisBlock == uint256S("0x029f11d80ef9765602235e1bc9727e3eb6ba20839319f761fee920d63401e327"));
         nPruneAfterHeight = 1000;
 

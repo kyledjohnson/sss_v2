@@ -37,7 +37,7 @@
 
 using namespace std;
 
-using namespace libzcash;
+using namespace libseventeenseventysix;
 
 extern UniValue TxJoinSplitToJSON(const CTransaction& tx);
 
@@ -114,11 +114,11 @@ UniValue getnewaddress(const UniValue& params, bool fHelp)
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "getnewaddress ( \"account\" )\n"
-            "\nReturns a new Zcash address for receiving payments.\n"
+            "\nReturns a new SeventeenSeventySix address for receiving payments.\n"
             "\nArguments:\n"
             "1. \"account\"        (string, optional) DEPRECATED. If provided, it MUST be set to the empty string \"\" to represent the default account. Passing any other string will result in an error.\n"
             "\nResult:\n"
-            "\"zcashaddress\"    (string) The new zcash address\n"
+            "\"seventeenseventysixaddress\"    (string) The new seventeenseventysix address\n"
             "\nExamples:\n"
             + HelpExampleCli("getnewaddress", "")
             + HelpExampleRpc("getnewaddress", "")
@@ -191,11 +191,11 @@ UniValue getaccountaddress(const UniValue& params, bool fHelp)
     if (fHelp || params.size() != 1)
         throw runtime_error(
             "getaccountaddress \"account\"\n"
-            "\nDEPRECATED. Returns the current Zcash address for receiving payments to this account.\n"
+            "\nDEPRECATED. Returns the current SeventeenSeventySix address for receiving payments to this account.\n"
             "\nArguments:\n"
             "1. \"account\"       (string, required) MUST be set to the empty string \"\" to represent the default account. Passing any other string will result in an error.\n"
             "\nResult:\n"
-            "\"zcashaddress\"   (string) The account zcash address\n"
+            "\"seventeenseventysixaddress\"   (string) The account seventeenseventysix address\n"
             "\nExamples:\n"
             + HelpExampleCli("getaccountaddress", "")
             + HelpExampleCli("getaccountaddress", "\"\"")
@@ -223,7 +223,7 @@ UniValue getrawchangeaddress(const UniValue& params, bool fHelp)
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "getrawchangeaddress\n"
-            "\nReturns a new Zcash address, for receiving change.\n"
+            "\nReturns a new SeventeenSeventySix address, for receiving change.\n"
             "This is for use with raw transactions, NOT normal use.\n"
             "\nResult:\n"
             "\"address\"    (string) The address\n"
@@ -257,10 +257,10 @@ UniValue setaccount(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
-            "setaccount \"zcashaddress\" \"account\"\n"
+            "setaccount \"seventeenseventysixaddress\" \"account\"\n"
             "\nDEPRECATED. Sets the account associated with the given address.\n"
             "\nArguments:\n"
-            "1. \"zcashaddress\"  (string, required) The zcash address to be associated with an account.\n"
+            "1. \"seventeenseventysixaddress\"  (string, required) The seventeenseventysix address to be associated with an account.\n"
             "2. \"account\"         (string, required) MUST be set to the empty string \"\" to represent the default account. Passing any other string will result in an error.\n"
             "\nExamples:\n"
             + HelpExampleCli("setaccount", "\"t14oHp2v54vfmdgQ3v3SNuQga8JKHTNi2a1\" \"tabby\"")
@@ -271,7 +271,7 @@ UniValue setaccount(const UniValue& params, bool fHelp)
 
     CBitcoinAddress address(params[0].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Zcash address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid SeventeenSeventySix address");
 
     string strAccount;
     if (params.size() > 1)
@@ -303,10 +303,10 @@ UniValue getaccount(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() != 1)
         throw runtime_error(
-            "getaccount \"zcashaddress\"\n"
+            "getaccount \"seventeenseventysixaddress\"\n"
             "\nDEPRECATED. Returns the account associated with the given address.\n"
             "\nArguments:\n"
-            "1. \"zcashaddress\"  (string, required) The zcash address for account lookup.\n"
+            "1. \"seventeenseventysixaddress\"  (string, required) The seventeenseventysix address for account lookup.\n"
             "\nResult:\n"
             "\"accountname\"        (string) the account address\n"
             "\nExamples:\n"
@@ -318,7 +318,7 @@ UniValue getaccount(const UniValue& params, bool fHelp)
 
     CBitcoinAddress address(params[0].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Zcash address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid SeventeenSeventySix address");
 
     string strAccount;
     map<CTxDestination, CAddressBookData>::iterator mi = pwalletMain->mapAddressBook.find(address.Get());
@@ -341,7 +341,7 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
             "1. \"account\"  (string, required) MUST be set to the empty string \"\" to represent the default account. Passing any other string will result in an error.\n"
             "\nResult:\n"
             "[                     (json array of string)\n"
-            "  \"zcashaddress\"  (string) a zcash address associated with the given account\n"
+            "  \"seventeenseventysixaddress\"  (string) a seventeenseventysix address associated with the given account\n"
             "  ,...\n"
             "]\n"
             "\nExamples:\n"
@@ -376,7 +376,7 @@ static void SendMoney(const CTxDestination &address, CAmount nValue, bool fSubtr
     if (nValue > curBalance)
         throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Insufficient funds");
 
-    // Parse Zcash address
+    // Parse SeventeenSeventySix address
     CScript scriptPubKey = GetScriptForDestination(address);
 
     // Create and send the transaction
@@ -403,11 +403,11 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 2 || params.size() > 5)
         throw runtime_error(
-            "sendtoaddress \"zcashaddress\" amount ( \"comment\" \"comment-to\" subtractfeefromamount )\n"
+            "sendtoaddress \"seventeenseventysixaddress\" amount ( \"comment\" \"comment-to\" subtractfeefromamount )\n"
             "\nSend an amount to a given address. The amount is a real and is rounded to the nearest 0.00000001\n"
             + HelpRequiringPassphrase() +
             "\nArguments:\n"
-            "1. \"zcashaddress\"  (string, required) The zcash address to send to.\n"
+            "1. \"seventeenseventysixaddress\"  (string, required) The seventeenseventysix address to send to.\n"
             "2. \"amount\"      (numeric, required) The amount in btc to send. eg 0.1\n"
             "3. \"comment\"     (string, optional) A comment used to store what the transaction is for. \n"
             "                             This is not part of the transaction, just kept in your wallet.\n"
@@ -415,7 +415,7 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp)
             "                             to which you're sending the transaction. This is not part of the \n"
             "                             transaction, just kept in your wallet.\n"
             "5. subtractfeefromamount  (boolean, optional, default=false) The fee will be deducted from the amount being sent.\n"
-            "                             The recipient will receive less zcash than you enter in the amount field.\n"
+            "                             The recipient will receive less seventeenseventysix than you enter in the amount field.\n"
             "\nResult:\n"
             "\"transactionid\"  (string) The transaction id.\n"
             "\nExamples:\n"
@@ -429,7 +429,7 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp)
 
     CBitcoinAddress address(params[0].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Zcash address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid SeventeenSeventySix address");
 
     // Amount
     CAmount nAmount = AmountFromValue(params[1]);
@@ -469,7 +469,7 @@ UniValue listaddressgroupings(const UniValue& params, bool fHelp)
             "[\n"
             "  [\n"
             "    [\n"
-            "      \"zcashaddress\",     (string) The zcash address\n"
+            "      \"seventeenseventysixaddress\",     (string) The seventeenseventysix address\n"
             "      amount,                 (numeric) The amount in btc\n"
             "      \"account\"             (string, optional) The account (DEPRECATED)\n"
             "    ]\n"
@@ -512,11 +512,11 @@ UniValue signmessage(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() != 2)
         throw runtime_error(
-            "signmessage \"zcashaddress\" \"message\"\n"
+            "signmessage \"seventeenseventysixaddress\" \"message\"\n"
             "\nSign a message with the private key of an address"
             + HelpRequiringPassphrase() + "\n"
             "\nArguments:\n"
-            "1. \"zcashaddress\"  (string, required) The zcash address to use for the private key.\n"
+            "1. \"seventeenseventysixaddress\"  (string, required) The seventeenseventysix address to use for the private key.\n"
             "2. \"message\"         (string, required) The message to create a signature of.\n"
             "\nResult:\n"
             "\"signature\"          (string) The signature of the message encoded in base 64\n"
@@ -568,10 +568,10 @@ UniValue getreceivedbyaddress(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
-            "getreceivedbyaddress \"zcashaddress\" ( minconf )\n"
-            "\nReturns the total amount received by the given zcashaddress in transactions with at least minconf confirmations.\n"
+            "getreceivedbyaddress \"seventeenseventysixaddress\" ( minconf )\n"
+            "\nReturns the total amount received by the given seventeenseventysixaddress in transactions with at least minconf confirmations.\n"
             "\nArguments:\n"
-            "1. \"zcashaddress\"  (string, required) The zcash address for transactions.\n"
+            "1. \"seventeenseventysixaddress\"  (string, required) The seventeenseventysix address for transactions.\n"
             "2. minconf             (numeric, optional, default=1) Only include transactions confirmed at least this many times.\n"
             "\nResult:\n"
             "amount   (numeric) The total amount in btc received at this address.\n"
@@ -591,7 +591,7 @@ UniValue getreceivedbyaddress(const UniValue& params, bool fHelp)
     // Bitcoin address
     CBitcoinAddress address = CBitcoinAddress(params[0].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Zcash address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid SeventeenSeventySix address");
     CScript scriptPubKey = GetScriptForDestination(address.Get());
     if (!IsMine(*pwalletMain,scriptPubKey))
         return (double)0.0;
@@ -875,13 +875,13 @@ UniValue sendfrom(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 3 || params.size() > 6)
         throw runtime_error(
-            "sendfrom \"fromaccount\" \"tozcashaddress\" amount ( minconf \"comment\" \"comment-to\" )\n"
-            "\nDEPRECATED (use sendtoaddress). Sent an amount from an account to a zcash address.\n"
+            "sendfrom \"fromaccount\" \"toseventeenseventysixaddress\" amount ( minconf \"comment\" \"comment-to\" )\n"
+            "\nDEPRECATED (use sendtoaddress). Sent an amount from an account to a seventeenseventysix address.\n"
             "The amount is a real and is rounded to the nearest 0.00000001."
             + HelpRequiringPassphrase() + "\n"
             "\nArguments:\n"
             "1. \"fromaccount\"       (string, required) MUST be set to the empty string \"\" to represent the default account. Passing any other string will result in an error.\n"
-            "2. \"tozcashaddress\"  (string, required) The zcash address to send funds to.\n"
+            "2. \"toseventeenseventysixaddress\"  (string, required) The seventeenseventysix address to send funds to.\n"
             "3. amount                (numeric, required) The amount in btc. (transaction fee is added on top).\n"
             "4. minconf               (numeric, optional, default=1) Only use funds with at least this many confirmations.\n"
             "5. \"comment\"           (string, optional) A comment used to store what the transaction is for. \n"
@@ -905,7 +905,7 @@ UniValue sendfrom(const UniValue& params, bool fHelp)
     string strAccount = AccountFromValue(params[0]);
     CBitcoinAddress address(params[1].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Zcash address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid SeventeenSeventySix address");
     CAmount nAmount = AmountFromValue(params[2]);
     if (nAmount <= 0)
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount for send");
@@ -947,14 +947,14 @@ UniValue sendmany(const UniValue& params, bool fHelp)
             "1. \"fromaccount\"         (string, required) MUST be set to the empty string \"\" to represent the default account. Passing any other string will result in an error.\n"
             "2. \"amounts\"             (string, required) A json object with addresses and amounts\n"
             "    {\n"
-            "      \"address\":amount   (numeric) The zcash address is the key, the numeric amount in btc is the value\n"
+            "      \"address\":amount   (numeric) The seventeenseventysix address is the key, the numeric amount in btc is the value\n"
             "      ,...\n"
             "    }\n"
             "3. minconf                 (numeric, optional, default=1) Only use the balance confirmed at least this many times.\n"
             "4. \"comment\"             (string, optional) A comment\n"
             "5. subtractfeefromamount   (string, optional) A json array with addresses.\n"
             "                           The fee will be equally deducted from the amount of each selected address.\n"
-            "                           Those recipients will receive less zcashs than you enter in their corresponding amount field.\n"
+            "                           Those recipients will receive less seventeenseventysixs than you enter in their corresponding amount field.\n"
             "                           If no addresses are specified here, the sender pays the fee.\n"
             "    [\n"
             "      \"address\"            (string) Subtract fee from this address\n"
@@ -1000,7 +1000,7 @@ UniValue sendmany(const UniValue& params, bool fHelp)
     {
         CBitcoinAddress address(name_);
         if (!address.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Zcash address: ")+name_);
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid SeventeenSeventySix address: ")+name_);
 
         if (setAddress.count(address))
             throw JSONRPCError(RPC_INVALID_PARAMETER, string("Invalid parameter, duplicated address: ")+name_);
@@ -1056,20 +1056,20 @@ UniValue addmultisigaddress(const UniValue& params, bool fHelp)
     {
         string msg = "addmultisigaddress nrequired [\"key\",...] ( \"account\" )\n"
             "\nAdd a nrequired-to-sign multisignature address to the wallet.\n"
-            "Each key is a Zcash address or hex-encoded public key.\n"
+            "Each key is a SeventeenSeventySix address or hex-encoded public key.\n"
             "If 'account' is specified (DEPRECATED), assign address to that account.\n"
 
             "\nArguments:\n"
             "1. nrequired        (numeric, required) The number of required signatures out of the n keys or addresses.\n"
-            "2. \"keysobject\"   (string, required) A json array of zcash addresses or hex-encoded public keys\n"
+            "2. \"keysobject\"   (string, required) A json array of seventeenseventysix addresses or hex-encoded public keys\n"
             "     [\n"
-            "       \"address\"  (string) zcash address or hex-encoded public key\n"
+            "       \"address\"  (string) seventeenseventysix address or hex-encoded public key\n"
             "       ...,\n"
             "     ]\n"
             "3. \"account\"      (string, optional) DEPRECATED. If provided, MUST be set to the empty string \"\" to represent the default account. Passing any other string will result in an error.\n"
 
             "\nResult:\n"
-            "\"zcashaddress\"  (string) A zcash address associated with the keys.\n"
+            "\"seventeenseventysixaddress\"  (string) A seventeenseventysix address associated with the keys.\n"
 
             "\nExamples:\n"
             "\nAdd a multisig address from 2 addresses\n"
@@ -1416,7 +1416,7 @@ UniValue listtransactions(const UniValue& params, bool fHelp)
             "  {\n"
             "    \"account\":\"accountname\",       (string) DEPRECATED. The account name associated with the transaction. \n"
             "                                                It will be \"\" for the default account.\n"
-            "    \"address\":\"zcashaddress\",    (string) The zcash address of the transaction. Not present for \n"
+            "    \"address\":\"seventeenseventysixaddress\",    (string) The seventeenseventysix address of the transaction. Not present for \n"
             "                                                move transactions (category = move).\n"
             "    \"category\":\"send|receive|move\", (string) The transaction category. 'move' is a local (off blockchain)\n"
             "                                                transaction between accounts, and not associated with an address,\n"
@@ -1616,7 +1616,7 @@ UniValue listsinceblock(const UniValue& params, bool fHelp)
             "{\n"
             "  \"transactions\": [\n"
             "    \"account\":\"accountname\",       (string) DEPRECATED. The account name associated with the transaction. Will be \"\" for the default account.\n"
-            "    \"address\":\"zcashaddress\",    (string) The zcash address of the transaction. Not present for move transactions (category = move).\n"
+            "    \"address\":\"seventeenseventysixaddress\",    (string) The seventeenseventysix address of the transaction. Not present for move transactions (category = move).\n"
             "    \"category\":\"send|receive\",     (string) The transaction category. 'send' has negative amounts, 'receive' has positive amounts.\n"
             "    \"amount\": x.xxx,          (numeric) The amount in btc. This is negative for the 'send' category, and for the 'move' category for moves \n"
             "                                          outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds.\n"
@@ -1715,7 +1715,7 @@ UniValue gettransaction(const UniValue& params, bool fHelp)
             "  \"details\" : [\n"
             "    {\n"
             "      \"account\" : \"accountname\",  (string) DEPRECATED. The account name involved in the transaction, can be \"\" for the default account.\n"
-            "      \"address\" : \"zcashaddress\",   (string) The zcash address involved in the transaction\n"
+            "      \"address\" : \"seventeenseventysixaddress\",   (string) The seventeenseventysix address involved in the transaction\n"
             "      \"category\" : \"send|receive\",    (string) The category, either 'send' or 'receive'\n"
             "      \"amount\" : x.xxx                  (numeric) The amount in btc\n"
             "      \"vout\" : n,                       (numeric) the vout value\n"
@@ -1875,7 +1875,7 @@ UniValue walletpassphrase(const UniValue& params, bool fHelp)
         throw runtime_error(
             "walletpassphrase \"passphrase\" timeout\n"
             "\nStores the wallet decryption key in memory for 'timeout' seconds.\n"
-            "This is needed prior to performing transactions related to private keys such as sending zcash\n"
+            "This is needed prior to performing transactions related to private keys such as sending seventeenseventysix\n"
             "\nArguments:\n"
             "1. \"passphrase\"     (string, required) The wallet passphrase\n"
             "2. timeout            (numeric, required) The time to keep the decryption key in seconds.\n"
@@ -2040,10 +2040,10 @@ UniValue encryptwallet(const UniValue& params, bool fHelp)
             "\nExamples:\n"
             "\nEncrypt you wallet\n"
             + HelpExampleCli("encryptwallet", "\"my pass phrase\"") +
-            "\nNow set the passphrase to use the wallet, such as for signing or sending zcash\n"
+            "\nNow set the passphrase to use the wallet, such as for signing or sending seventeenseventysix\n"
             + HelpExampleCli("walletpassphrase", "\"my pass phrase\"") +
             "\nNow we can so something like sign\n"
-            + HelpExampleCli("signmessage", "\"zcashaddress\" \"test message\"") +
+            + HelpExampleCli("signmessage", "\"seventeenseventysixaddress\" \"test message\"") +
             "\nNow lock the wallet again by removing the passphrase\n"
             + HelpExampleCli("walletlock", "") +
             "\nAs a json rpc call\n"
@@ -2078,7 +2078,7 @@ UniValue encryptwallet(const UniValue& params, bool fHelp)
     // slack space in .dat files; that is bad if the old data is
     // unencrypted private keys. So:
     StartShutdown();
-    return "wallet encrypted; Zcash server stopping, restart to run with encrypted wallet. The keypool has been flushed, you need to make a new backup.";
+    return "wallet encrypted; SeventeenSeventySix server stopping, restart to run with encrypted wallet. The keypool has been flushed, you need to make a new backup.";
 }
 
 UniValue lockunspent(const UniValue& params, bool fHelp)
@@ -2091,7 +2091,7 @@ UniValue lockunspent(const UniValue& params, bool fHelp)
             "lockunspent unlock [{\"txid\":\"txid\",\"vout\":n},...]\n"
             "\nUpdates list of temporarily unspendable outputs.\n"
             "Temporarily lock (unlock=false) or unlock (unlock=true) specified transaction outputs.\n"
-            "A locked transaction output will not be chosen by automatic coin selection, when spending zcash.\n"
+            "A locked transaction output will not be chosen by automatic coin selection, when spending seventeenseventysix.\n"
             "Locks are stored in memory only. Nodes start with zero locked outputs, and the locked output list\n"
             "is always cleared (by virtue of process exit) when a node stops or fails.\n"
             "Also see the listunspent call\n"
@@ -2253,14 +2253,14 @@ UniValue getwalletinfo(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "{\n"
             "  \"walletversion\": xxxxx,     (numeric) the wallet version\n"
-            "  \"balance\": xxxxxxx,         (numeric) the total confirmed zcash balance of the wallet\n"
-            "  \"unconfirmed_balance\": xxx, (numeric) the total unconfirmed zcash balance of the wallet\n"
+            "  \"balance\": xxxxxxx,         (numeric) the total confirmed seventeenseventysix balance of the wallet\n"
+            "  \"unconfirmed_balance\": xxx, (numeric) the total unconfirmed seventeenseventysix balance of the wallet\n"
             "  \"immature_balance\": xxxxxx, (numeric) the total immature balance of the wallet\n"
             "  \"txcount\": xxxxxxx,         (numeric) the total number of transactions in the wallet\n"
             "  \"keypoololdest\": xxxxxx,    (numeric) the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool\n"
             "  \"keypoolsize\": xxxx,        (numeric) how many new keys are pre-generated\n"
             "  \"unlocked_until\": ttt,      (numeric) the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked\n"
-            "  \"paytxfee\": x.xxxx,         (numeric) the transaction fee configuration, set in ZEC/KB\n"
+            "  \"paytxfee\": x.xxxx,         (numeric) the transaction fee configuration, set in SSS/KB\n"
             "}\n"
             "\nExamples:\n"
             + HelpExampleCli("getwalletinfo", "")
@@ -2324,9 +2324,9 @@ UniValue listunspent(const UniValue& params, bool fHelp)
             "\nArguments:\n"
             "1. minconf          (numeric, optional, default=1) The minimum confirmations to filter\n"
             "2. maxconf          (numeric, optional, default=9999999) The maximum confirmations to filter\n"
-            "3. \"addresses\"    (string) A json array of zcash addresses to filter\n"
+            "3. \"addresses\"    (string) A json array of seventeenseventysix addresses to filter\n"
             "    [\n"
-            "      \"address\"   (string) zcash address\n"
+            "      \"address\"   (string) seventeenseventysix address\n"
             "      ,...\n"
             "    ]\n"
             "\nResult\n"
@@ -2335,7 +2335,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
             "    \"txid\" : \"txid\",        (string) the transaction id \n"
             "    \"vout\" : n,               (numeric) the vout value\n"
             "    \"generated\" : true|false  (boolean) true if txout is a coinbase transaction output\n"
-            "    \"address\" : \"address\",  (string) the zcash address\n"
+            "    \"address\" : \"address\",  (string) the seventeenseventysix address\n"
             "    \"account\" : \"account\",  (string) DEPRECATED. The associated account, or \"\" for the default account\n"
             "    \"scriptPubKey\" : \"key\", (string) the script key\n"
             "    \"amount\" : x.xxx,         (numeric) the transaction amount in btc\n"
@@ -2367,7 +2367,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
             const UniValue& input = inputs[idx];
             CBitcoinAddress address(input.get_str());
             if (!address.IsValid())
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Zcash address: ")+input.get_str());
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid SeventeenSeventySix address: ")+input.get_str());
             if (setAddress.count(address))
                 throw JSONRPCError(RPC_INVALID_PARAMETER, string("Invalid parameter, duplicated address: ")+input.get_str());
            setAddress.insert(address);
@@ -2491,7 +2491,7 @@ UniValue zc_sample_joinsplit(const UniValue& params, bool fHelp)
 
     uint256 pubKeyHash;
     uint256 anchor = ZCIncrementalMerkleTree().root();
-    JSDescription samplejoinsplit(*pzcashParams,
+    JSDescription samplejoinsplit(*pseventeenseventysixParams,
                                   pubKeyHash,
                                   anchor,
                                   {JSInput(), JSInput()},
@@ -2544,7 +2544,7 @@ UniValue zc_benchmark(const UniValue& params, bool fHelp)
     if (benchmarktype == "createjoinsplit") {
         /* Load the proving now key so that it doesn't happen as part of the
          * first joinsplit. */
-        pzcashParams->loadProvingKey();
+        pseventeenseventysixParams->loadProvingKey();
     }
 
     JSDescription samplejoinsplit;
@@ -2813,7 +2813,7 @@ UniValue zc_raw_joinsplit(const UniValue& params, bool fHelp)
     mtx.nVersion = 2;
     mtx.joinSplitPubKey = joinSplitPubKey;
 
-    JSDescription jsdesc(*pzcashParams,
+    JSDescription jsdesc(*pseventeenseventysixParams,
                          joinSplitPubKey,
                          anchor,
                          {vjsin[0], vjsin[1]},
@@ -2822,8 +2822,8 @@ UniValue zc_raw_joinsplit(const UniValue& params, bool fHelp)
                          vpub_new);
 
     {
-        auto verifier = libzcash::ProofVerifier::Strict();
-        assert(jsdesc.Verify(*pzcashParams, verifier, joinSplitPubKey));
+        auto verifier = libseventeenseventysix::ProofVerifier::Strict();
+        assert(jsdesc.Verify(*pseventeenseventysixParams, verifier, joinSplitPubKey));
     }
 
     mtx.vjoinsplit.push_back(jsdesc);
@@ -2857,7 +2857,7 @@ UniValue zc_raw_joinsplit(const UniValue& params, bool fHelp)
         ss2 << ((unsigned char) 0x00);
         ss2 << jsdesc.ephemeralKey;
         ss2 << jsdesc.ciphertexts[0];
-        ss2 << jsdesc.h_sig(*pzcashParams, joinSplitPubKey);
+        ss2 << jsdesc.h_sig(*pseventeenseventysixParams, joinSplitPubKey);
 
         encryptedNote1 = HexStr(ss2.begin(), ss2.end());
     }
@@ -2866,7 +2866,7 @@ UniValue zc_raw_joinsplit(const UniValue& params, bool fHelp)
         ss2 << ((unsigned char) 0x01);
         ss2 << jsdesc.ephemeralKey;
         ss2 << jsdesc.ciphertexts[1];
-        ss2 << jsdesc.h_sig(*pzcashParams, joinSplitPubKey);
+        ss2 << jsdesc.h_sig(*pseventeenseventysixParams, joinSplitPubKey);
 
         encryptedNote2 = HexStr(ss2.begin(), ss2.end());
     }
@@ -2928,7 +2928,7 @@ UniValue z_getnewaddress(const UniValue& params, bool fHelp)
             "\nReturns a new zaddr for receiving payments.\n"
             "\nArguments:\n"
             "\nResult:\n"
-            "\"zcashaddress\"    (string) The new zaddr\n"
+            "\"seventeenseventysixaddress\"    (string) The new zaddr\n"
             "\nExamples:\n"
             + HelpExampleCli("z_getnewaddress", "")
             + HelpExampleRpc("z_getnewaddress", "")
@@ -2967,7 +2967,7 @@ UniValue z_listaddresses(const UniValue& params, bool fHelp)
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
     UniValue ret(UniValue::VARR);
-    std::set<libzcash::PaymentAddress> addresses;
+    std::set<libseventeenseventysix::PaymentAddress> addresses;
     pwalletMain->GetPaymentAddresses(addresses);
     for (auto addr : addresses ) {
         ret.push_back(CZCPaymentAddress(addr).ToString());
@@ -3059,7 +3059,7 @@ UniValue z_listreceivedbyaddress(const UniValue& params, bool fHelp)
     // Check that the from address is valid.
     auto fromaddress = params[0].get_str();
 
-    libzcash::PaymentAddress zaddr;
+    libseventeenseventysix::PaymentAddress zaddr;
     CZCPaymentAddress address(fromaddress);
     try {
         zaddr = address.Get();
@@ -3100,7 +3100,7 @@ UniValue z_getbalance(const UniValue& params, bool fHelp)
             "1. \"address\"      (string) The selected address. It may be a transparent or private address.\n"
             "2. minconf          (numeric, optional, default=1) Only include transactions confirmed at least this many times.\n"
             "\nResult:\n"
-            "amount              (numeric) The total amount in ZEC received for this address.\n"
+            "amount              (numeric) The total amount in SSS received for this address.\n"
             "\nExamples:\n"
             "\nThe total amount received by address \"myaddress\"\n"
             + HelpExampleCli("z_getbalance", "\"myaddress\"") +
@@ -3125,7 +3125,7 @@ UniValue z_getbalance(const UniValue& params, bool fHelp)
     bool fromTaddr = false;
     CBitcoinAddress taddr(fromaddress);
     fromTaddr = taddr.IsValid();
-    libzcash::PaymentAddress zaddr;
+    libseventeenseventysix::PaymentAddress zaddr;
     if (!fromTaddr) {
         CZCPaymentAddress address(fromaddress);
         try {
@@ -3325,7 +3325,7 @@ UniValue z_sendmany(const UniValue& params, bool fHelp)
             "2. \"amounts\"             (array, required) An array of json objects representing the amounts to send.\n"
             "    [{\n"
             "      \"address\":address  (string, required) The address is a taddr or zaddr\n"
-            "      \"amount\":amount    (numeric, required) The numeric amount in ZEC is the value\n"
+            "      \"amount\":amount    (numeric, required) The numeric amount in SSS is the value\n"
             "      \"memo\":memo        (string, optional) If the address is a zaddr, raw data represented in hexadecimal string format\n"
             "    }, ... ]\n"
             "3. minconf               (numeric, optional, default=1) Only use funds confirmed at least this many times.\n"
@@ -3342,7 +3342,7 @@ UniValue z_sendmany(const UniValue& params, bool fHelp)
     bool fromTaddr = false;
     CBitcoinAddress taddr(fromaddress);
     fromTaddr = taddr.IsValid();
-    libzcash::PaymentAddress zaddr;
+    libseventeenseventysix::PaymentAddress zaddr;
     if (!fromTaddr) {
         CZCPaymentAddress address(fromaddress);
         try {

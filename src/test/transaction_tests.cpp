@@ -29,9 +29,9 @@
 
 #include <univalue.h>
 
-#include "zcash/Note.hpp"
-#include "zcash/Address.hpp"
-#include "zcash/Proof.hpp"
+#include "seventeenseventysix/Note.hpp"
+#include "seventeenseventysix/Address.hpp"
+#include "seventeenseventysix/Proof.hpp"
 
 using namespace std;
 
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE(tx_valid)
     UniValue tests = read_json(std::string(json_tests::tx_valid, json_tests::tx_valid + sizeof(json_tests::tx_valid)));
     std::string comment("");
 
-    auto verifier = libzcash::ProofVerifier::Strict();
+    auto verifier = libseventeenseventysix::ProofVerifier::Strict();
     ScriptError err;
     for (size_t idx = 0; idx < tests.size(); idx++) {
         UniValue test = tests[idx];
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE(tx_invalid)
     UniValue tests = read_json(std::string(json_tests::tx_invalid, json_tests::tx_invalid + sizeof(json_tests::tx_invalid)));
     std::string comment("");
 
-    auto verifier = libzcash::ProofVerifier::Strict();
+    auto verifier = libseventeenseventysix::ProofVerifier::Strict();
     ScriptError err;
     for (size_t idx = 0; idx < tests.size(); idx++) {
         UniValue test = tests[idx];
@@ -263,7 +263,7 @@ BOOST_AUTO_TEST_CASE(basic_transaction_tests)
     CMutableTransaction tx;
     stream >> tx;
     CValidationState state;
-    auto verifier = libzcash::ProofVerifier::Strict();
+    auto verifier = libseventeenseventysix::ProofVerifier::Strict();
     BOOST_CHECK_MESSAGE(CheckTransaction(tx, state, verifier) && state.IsValid(), "Simple deserialized transaction should be valid.");
 
     // Check that duplicate txins fail
@@ -323,7 +323,7 @@ BOOST_AUTO_TEST_CASE(test_basic_joinsplit_verification)
     // on all platforms and would gently push us down an ugly
     // path. We should just fix the assertions.
     //
-    // Also, it's generally libzcash's job to ensure the
+    // Also, it's generally libseventeenseventysix's job to ensure the
     // integrity of the scheme through its own tests.
 
     // construct the r1cs keypair
@@ -332,10 +332,10 @@ BOOST_AUTO_TEST_CASE(test_basic_joinsplit_verification)
     // construct a merkle tree
     ZCIncrementalMerkleTree merkleTree;
 
-    libzcash::SpendingKey k = libzcash::SpendingKey::random();
-    libzcash::PaymentAddress addr = k.address();
+    libseventeenseventysix::SpendingKey k = libseventeenseventysix::SpendingKey::random();
+    libseventeenseventysix::PaymentAddress addr = k.address();
 
-    libzcash::Note note(addr.a_pk, 100, uint256(), uint256());
+    libseventeenseventysix::Note note(addr.a_pk, 100, uint256(), uint256());
 
     // commitment from coin
     uint256 commitment = note.cm();
@@ -350,16 +350,16 @@ BOOST_AUTO_TEST_CASE(test_basic_joinsplit_verification)
 
     // create JSDescription
     uint256 pubKeyHash;
-    boost::array<libzcash::JSInput, ZC_NUM_JS_INPUTS> inputs = {
-        libzcash::JSInput(witness, note, k),
-        libzcash::JSInput() // dummy input of zero value
+    boost::array<libseventeenseventysix::JSInput, ZC_NUM_JS_INPUTS> inputs = {
+        libseventeenseventysix::JSInput(witness, note, k),
+        libseventeenseventysix::JSInput() // dummy input of zero value
     };
-    boost::array<libzcash::JSOutput, ZC_NUM_JS_OUTPUTS> outputs = {
-        libzcash::JSOutput(addr, 50),
-        libzcash::JSOutput(addr, 50)
+    boost::array<libseventeenseventysix::JSOutput, ZC_NUM_JS_OUTPUTS> outputs = {
+        libseventeenseventysix::JSOutput(addr, 50),
+        libseventeenseventysix::JSOutput(addr, 50)
     };
 
-    auto verifier = libzcash::ProofVerifier::Strict();
+    auto verifier = libseventeenseventysix::ProofVerifier::Strict();
 
     {
         JSDescription jsdesc(*p, pubKeyHash, rt, inputs, outputs, 0, 0);
@@ -391,7 +391,7 @@ BOOST_AUTO_TEST_CASE(test_basic_joinsplit_verification)
 
 BOOST_AUTO_TEST_CASE(test_simple_joinsplit_invalidity)
 {
-    auto verifier = libzcash::ProofVerifier::Strict();
+    auto verifier = libseventeenseventysix::ProofVerifier::Strict();
     CMutableTransaction tx;
     tx.nVersion = 2;
     {

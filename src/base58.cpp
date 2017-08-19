@@ -323,19 +323,19 @@ bool CBitcoinSecret::SetString(const std::string& strSecret)
     return SetString(strSecret.c_str());
 }
 
-bool CZCPaymentAddress::Set(const libzcash::PaymentAddress& addr)
+bool CZCPaymentAddress::Set(const libseventeenseventysix::PaymentAddress& addr)
 {
     CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
     ss << addr;
     std::vector<unsigned char> addrSerialized(ss.begin(), ss.end());
-    assert(addrSerialized.size() == libzcash::SerializedPaymentAddressSize);
-    SetData(Params().Base58Prefix(CChainParams::ZCPAYMENT_ADDRRESS), &addrSerialized[0], libzcash::SerializedPaymentAddressSize);
+    assert(addrSerialized.size() == libseventeenseventysix::SerializedPaymentAddressSize);
+    SetData(Params().Base58Prefix(CChainParams::ZCPAYMENT_ADDRRESS), &addrSerialized[0], libseventeenseventysix::SerializedPaymentAddressSize);
     return true;
 }
 
-libzcash::PaymentAddress CZCPaymentAddress::Get() const
+libseventeenseventysix::PaymentAddress CZCPaymentAddress::Get() const
 {
-    if (vchData.size() != libzcash::SerializedPaymentAddressSize) {
+    if (vchData.size() != libseventeenseventysix::SerializedPaymentAddressSize) {
         throw std::runtime_error(
             "payment address is invalid"
         );
@@ -350,24 +350,24 @@ libzcash::PaymentAddress CZCPaymentAddress::Get() const
     std::vector<unsigned char> serialized(vchData.begin(), vchData.end());
 
     CDataStream ss(serialized, SER_NETWORK, PROTOCOL_VERSION);
-    libzcash::PaymentAddress ret;
+    libseventeenseventysix::PaymentAddress ret;
     ss >> ret;
     return ret;
 }
 
-bool CZCSpendingKey::Set(const libzcash::SpendingKey& addr)
+bool CZCSpendingKey::Set(const libseventeenseventysix::SpendingKey& addr)
 {
     CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
     ss << addr;
     std::vector<unsigned char> addrSerialized(ss.begin(), ss.end());
-    assert(addrSerialized.size() == libzcash::SerializedSpendingKeySize);
-    SetData(Params().Base58Prefix(CChainParams::ZCSPENDING_KEY), &addrSerialized[0], libzcash::SerializedSpendingKeySize);
+    assert(addrSerialized.size() == libseventeenseventysix::SerializedSpendingKeySize);
+    SetData(Params().Base58Prefix(CChainParams::ZCSPENDING_KEY), &addrSerialized[0], libseventeenseventysix::SerializedSpendingKeySize);
     return true;
 }
 
-libzcash::SpendingKey CZCSpendingKey::Get() const
+libseventeenseventysix::SpendingKey CZCSpendingKey::Get() const
 {
-    if (vchData.size() != libzcash::SerializedSpendingKeySize) {
+    if (vchData.size() != libseventeenseventysix::SerializedSpendingKeySize) {
         throw std::runtime_error(
             "spending key is invalid"
         );
@@ -382,7 +382,7 @@ libzcash::SpendingKey CZCSpendingKey::Get() const
     std::vector<unsigned char> serialized(vchData.begin(), vchData.end());
 
     CDataStream ss(serialized, SER_NETWORK, PROTOCOL_VERSION);
-    libzcash::SpendingKey ret;
+    libseventeenseventysix::SpendingKey ret;
     ss >> ret;
     return ret;
 }
